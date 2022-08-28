@@ -1,0 +1,7 @@
+.title {
+    font-family: RockoBold;
+    font-size: 64px;
+    color: var(--primaryHighlight);
+    margin: 24px;
+    line-height: 85%;
+}

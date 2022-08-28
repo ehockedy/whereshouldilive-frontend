@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createRoot } from 'react-dom/client';
 import { App } from "./App";
+import "/src/css/index.css"
 
 const container = document.getElementById('app')
 if (container) {

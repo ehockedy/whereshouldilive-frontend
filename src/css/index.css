@@ -1,0 +1,18 @@
+body {
+    font-family: 'Rocko';
+}
+
+:root {
+    --primaryText: #000;
+    --primaryHighlight: #d85151;
+}
+
+@font-face {
+    font-family: 'Rocko';
+    src: url(/resources/fonts/rocko/RockoFLF.ttf);
+}
+
+@font-face {
+    font-family: 'RockoBold';
+    src: url(/resources/fonts/rocko/RockoFLF-Bold.ttf);
+}

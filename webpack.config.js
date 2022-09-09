@@ -6,7 +6,10 @@ module.exports = {
     target: "web",  // This builds for web, not servers
     mode: "development",
     devServer: {
-        port: 3001
+        port: 3001,
+        proxy: {
+            '/': 'http://localhost:8080'
+        }
     },
     output: {
         path: path.resolve(__dirname, "build"),

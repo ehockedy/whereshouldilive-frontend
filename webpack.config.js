@@ -42,7 +42,11 @@ module.exports = {
                     // Used to parse React code, and support browsers that use all versions of js/ts
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-react', '@babel/preset-env'],
+                        presets: [
+                            '@babel/preset-react',
+                            '@babel/preset-env',
+                            ['@babel/preset-typescript', {allowNamespaces: true}],
+                        ],
                         plugins: ['@babel/plugin-transform-runtime'],
                     },
                 },

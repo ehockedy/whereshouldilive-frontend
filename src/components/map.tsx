@@ -141,7 +141,11 @@ const renderMapStatus = (status: Status) => {
 };
 
 const MapWrapper = () => {
-    return <Wrapper apiKey={"API KEY"} render={renderMapStatus}>
+    const API_KEY = process.env.API_KEY;
+    if (!API_KEY) {
+        return <div>Unable to load API key, does .env file exist in top level directory?</div>
+    }
+    return <Wrapper apiKey={API_KEY} render={renderMapStatus}>
         <MapComponent/>
     </Wrapper>
 }

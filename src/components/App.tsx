@@ -1,8 +1,22 @@
 import * as React from "react";
 import { useEffect } from "react";
 import styles from "/src/css/App.css"
-import Map from "./map"
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { MapComponent } from "./map";
 
+const renderMapStatus = (status: Status) => {
+  return <h1>{status}</h1>;
+};
+
+const MapWrapper = () => {
+  const API_KEY = process.env.API_KEY;
+  if (!API_KEY) {
+      return <div>Unable to load API key, does .env file exist in top level directory?</div>
+  }
+  return <Wrapper apiKey={API_KEY} render={renderMapStatus}>
+      <MapComponent/>
+  </Wrapper>
+}
 
 export const App = () => {
   useEffect(() => {
@@ -51,6 +65,6 @@ export const App = () => {
       Where Should I Live?
     </h1>
 
-    <Map/>
+    <MapWrapper />
   </>
 )};

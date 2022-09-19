@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import styles from "/src/css/map.css"
+import styles from "/src/css/map.css";
+import OverlayView from "./customOverlay";
 
 /**
  * When lat/lng is used to reverse geocode, multiple places are returned with increasing granularity
@@ -82,9 +82,16 @@ const getBestResult = (results: Array<google.maps.GeocoderResult>, zoom: number)
     return results[0];
 }
 
-const MapComponent: React.FC<{}> = () => {
+export const MapComponent: React.FC<{}> = () => {
     const ref = useRef<HTMLDivElement>(null);
     const [map, setMap] = useState<google.maps.Map>();
+
+    // Store of markers currently displayed on the map
+    const [markers, setMarkers] = useState<JSX.Element[]>([]);
+
+    // One up counter, used to assign unique key to each marker
+    const [markerCount, setMarkerCount] = useState<number>(0);
+
 
     const onClick = (event: google.maps.MapMouseEvent) => {
         if (!map) {
@@ -102,7 +109,22 @@ const MapComponent: React.FC<{}> = () => {
                 const zoom = map.getZoom()
                 if (response && response.results.length && zoom) {
                     const selectedPlace = getBestResult(response.results, zoom)
-                    // TODO put pin on map and centre that point
+                    const bounds = selectedPlace.geometry.bounds
+                    if (selectedPlace && bounds) {
+                        map.panTo(bounds.getCenter());
+                    }
+
+                    const overlay = <OverlayView
+                        position={selectedPlace.geometry.location}
+                        map={map}
+                        key={`marker${markerCount}`}
+                    >
+                        <div style={{backgroundColor: "white"}}>HELLO</div>
+                    </OverlayView>;
+
+                    // Add overlay to store and increment unique counter
+                    setMarkers([...markers, overlay]);
+                    setMarkerCount(markerCount + 1);
                 }
             })
     }
@@ -133,21 +155,7 @@ const MapComponent: React.FC<{}> = () => {
         }
     }, [map, onClick]);
 
-    return <div ref={ref} className={styles.map} />
+    return <div ref={ref} className={styles.map} >
+        {markers.map((m) => m)}
+    </div>
 }
-
-const renderMapStatus = (status: Status) => {
-    return <h1>{status}</h1>;
-};
-
-const MapWrapper = () => {
-    const API_KEY = process.env.API_KEY;
-    if (!API_KEY) {
-        return <div>Unable to load API key, does .env file exist in top level directory?</div>
-    }
-    return <Wrapper apiKey={API_KEY} render={renderMapStatus}>
-        <MapComponent/>
-    </Wrapper>
-}
-
-export default MapWrapper;

@@ -2,85 +2,10 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import styles from "/src/css/map.css";
 import OverlayView from "./customOverlay";
+import PlacePopup from "./placePopup";
+import { getBestResult, bestResultMethod } from "./mapUtils";
 
-/**
- * When lat/lng is used to reverse geocode, multiple places are returned with increasing granularity
- * We should pick an appropriate one based on zoom, since it is assumed if the user is zommed in more,
- * they want a specific place/road/house etc. If they are zoomed out, more likely just want the general
- * region. Each place returned by google has a number of types. The below list specifies the types we should
- * accept for zoom levels of the givin minumum or lower. We accept lower zoom level types in case the types
- * listed are not found in the results list.
- */
-const zoomLevelToPlaceTypeMappings = [
-    {
-        minZoomLevel: 18,
-        placeTypes: [
-            'premise',
-            'establishment',
-            'point_of_interest',
-        ]
-    },
-    {
-        minZoomLevel: 16,
-        placeTypes: [
-            'street address',
-            'route',
-        ]
-    },
-    {
-        minZoomLevel: 14,
-        placeTypes: [
-            'sublocality',
-            'sublocality_level_1',
-        ]
-    },
-    {
-        minZoomLevel: 10,
-        placeTypes: [
-            'administrative_area',
-            'administrative_area_level_4',
-            'locality',
-            'postal_code',
-        ]
-    },
-    {
-        minZoomLevel: 6,
-        placeTypes: [
-            'postal_town',
-            'locality',
-            'administrative_area_level_2 ',
-        ]
-    },
-    {
-        minZoomLevel: 4,
-        placeTypes: [
-            'administrative_area_level_1',
-            'country'
-        ]
-    },
-    {
-        minZoomLevel: 0,
-        placeTypes: [
-            'country'
-        ]
-    },
-]
-
-// Given the list of results and zoom level, determine the most appropriate result
-const getBestResult = (results: Array<google.maps.GeocoderResult>, zoom: number): google.maps.GeocoderResult => {
-    const firstTypesCheckIdx = zoomLevelToPlaceTypeMappings.findIndex((val) => val.minZoomLevel <= zoom)
-    for (const result of results) {
-        for (let idx = firstTypesCheckIdx; idx < zoomLevelToPlaceTypeMappings.length; idx++) {
-            for (const type of zoomLevelToPlaceTypeMappings[idx].placeTypes) {
-                if (result.types.includes(type)) {
-                    return result;
-                }
-            }
-
-        }
-    }
-    return results[0];
-}
+const activeBestResultMethod = bestResultMethod.USE_FIRST;
 
 export const MapComponent: React.FC<{}> = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -100,33 +25,41 @@ export const MapComponent: React.FC<{}> = () => {
 
         // Get place from lat/long of clicked spot on map
         const geocoder = new google.maps.Geocoder();
+        const clickedLocation = event.latLng;
         geocoder
             .geocode({
-                location: event.latLng,
+                location: clickedLocation,
                 bounds: map.getBounds(),
             })
             .then((response) => {
                 const zoom = map.getZoom()
-                if (response && response.results.length && zoom) {
-                    const selectedPlace = getBestResult(response.results, zoom)
-                    const bounds = selectedPlace.geometry.bounds
-                    if (selectedPlace && bounds) {
-                        map.panTo(bounds.getCenter());
+                if (response && response.results.length && zoom && clickedLocation) {
+                    const selectedPlace = getBestResult(activeBestResultMethod, response.results, map, clickedLocation);
+                    if (selectedPlace) {
+                        return geocoder.geocode({
+                            placeId: selectedPlace.place_id,
+                      });
                     }
-
-                    const overlay = <OverlayView
-                        position={selectedPlace.geometry.location}
-                        map={map}
-                        key={`marker${markerCount}`}
-                    >
-                        <div style={{backgroundColor: "white"}}>HELLO</div>
-                    </OverlayView>;
-
+                }
+                return null;
+            })
+            .then((response) => {
+                if (response && response.results.length) {
+                    const selectedPlace = response.results[0];
+                    const overlay = 
+                        <OverlayView
+                            position={selectedPlace.geometry.location}
+                            map={map}
+                            key={`marker${markerCount}`}
+                        >
+                        </OverlayView>;
                     // Add overlay to store and increment unique counter
                     setMarkers([...markers, overlay]);
                     setMarkerCount(markerCount + 1);
+                    map.fitBounds(selectedPlace.geometry.viewport);
                 }
             })
+
     }
 
     useEffect(() => {

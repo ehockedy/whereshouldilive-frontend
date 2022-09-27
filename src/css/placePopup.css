@@ -1,0 +1,15 @@
+.popup {
+    transform: translate(-50%, -100%);
+    background-color: crimson;
+}
+
+.popup .popupContent::after {
+    content: " ";
+    position: absolute;
+    top: 100%; /* At the bottom of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }

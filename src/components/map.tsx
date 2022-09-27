@@ -52,6 +52,7 @@ export const MapComponent: React.FC<{}> = () => {
                             map={map}
                             key={`marker${markerCount}`}
                         >
+                            <PlacePopup />
                         </OverlayView>;
                     // Add overlay to store and increment unique counter
                     setMarkers([...markers, overlay]);

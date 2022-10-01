@@ -1,0 +1,26 @@
+.infoBar {
+
+    border-radius: 4px;
+    box-shadow: 0px 2px 2px 0px #1e1e1ecb;
+
+    transform: translateY(0%);
+    transition: transform .35s;
+
+    margin: 16px;
+    padding: 8px 12px 8px 12px;
+    box-sizing: border-box;
+}
+
+.infoBar.hidden {
+    transform: translateY(-150%);
+}
+
+.icon {
+    margin-right: 8px;
+}
+
+.infoType {
+    background-color: var(--infoBoxInfo);
+    border: 2px solid var(--infoBoxInfoBorder);
+    color: var(--infoBoxInfoText);
+}

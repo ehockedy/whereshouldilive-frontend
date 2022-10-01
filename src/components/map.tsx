@@ -4,7 +4,7 @@ import styles from "/src/css/map.css";
 import { MarkerOverlayView } from "./customOverlay";
 import PlacePopup from "./placePopup";
 import { getBestResult, bestResultMethod } from "./mapUtils";
-import classnames from "classnames"
+import { InfoBar } from "./infoBar";
 
 const activeBestResultMethod = bestResultMethod.USE_FIRST;
 const maxZoomForSelection = 14;
@@ -151,9 +151,13 @@ export const MapComponent: React.FC<{}> = () => {
         <div ref={ref} className={styles.map} >
             {markers}
         </div>
-        <div className={classnames(styles.infoBar, {
-            [styles.hidden]: !infoBarShown }
-        )}>{infoBarMessage}</div>
+        <div className={styles.infoBar}>
+            <InfoBar
+                message={infoBarMessage}
+                shown={infoBarShown}
+                type={'info'}
+            />
+        </div>
     </div>
 
 }

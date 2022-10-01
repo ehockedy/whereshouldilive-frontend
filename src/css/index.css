@@ -22,3 +22,7 @@ body {
     font-family: 'RockoBold';
     src: url(/resources/fonts/rocko/RockoFLF-Bold.ttf);
 }
+
+.pac-container {
+    font-family: 'Rocko';
+}

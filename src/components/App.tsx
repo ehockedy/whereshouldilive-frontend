@@ -2,7 +2,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import styles from "/src/css/App.css"
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { MapComponent } from "./map";
+import { MapComponent } from "./map/map";
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
@@ -13,7 +13,7 @@ const MapWrapper = () => {
   if (!API_KEY) {
       return <div>Unable to load API key, does .env file exist in top level directory?</div>
   }
-  return <Wrapper apiKey={API_KEY} render={renderMapStatus}>
+  return <Wrapper apiKey={API_KEY} render={renderMapStatus} libraries={['places']}>
       <MapComponent/>
   </Wrapper>
 }

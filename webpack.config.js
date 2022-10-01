@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
+const loaderUtils = require('loader-utils');
 
 module.exports = {
     entry: "./src/components/index.tsx",
@@ -29,11 +30,26 @@ module.exports = {
                         loader: 'css-loader',
                         options: {
                             modules: {
-                                localIdentName: '[local]_[hash:base64:5]'
+                                getLocalIdent: (context, localIdentName, localName, options) => {
+                                    // Certain css rule names we do not want to hash, as they may
+                                    // override rules put in place by third party libraries.
+                                    const toIgnore = ['pac-container']
+                                    if (toIgnore.includes(localName)) {
+                                        return localName;
+                                    }
+                                    
+                                    // Generate unique name based off rule and path name, to make unique
+                                    options.content = `${context.resourcePath}_${localName}`;
+                                    const hash = loaderUtils.interpolateName(
+                                        context,
+                                        '[hash:base64:5]',
+                                        options
+                                    );
+                                    return `${localName}_${hash}`;
+                                  },
                             },
                             importLoaders: 1,
-
-                        }
+                        },
                     }],
             },
             {

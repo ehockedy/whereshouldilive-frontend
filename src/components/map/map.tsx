@@ -5,6 +5,7 @@ import { MarkerOverlayView } from "./customOverlay";
 import PlacePopup from "./placePopup";
 import { getBestResult, bestResultMethod } from "./mapUtils";
 import { InfoBar } from "./infoBar";
+import SearchBox from "./searchBox";
 
 const activeBestResultMethod = bestResultMethod.USE_FIRST;
 const maxZoomForSelection = 14;
@@ -12,6 +13,8 @@ const initialMapZoom = 8;
 
 export const MapComponent: React.FC<{}> = () => {
     const ref = useRef<HTMLDivElement>(null);
+    // const searchBoxRef = useRef<HTMLInputElement>(null);
+
     const [map, setMap] = useState<google.maps.Map>();
 
     // Store of markers currently displayed on the map
@@ -120,6 +123,10 @@ export const MapComponent: React.FC<{}> = () => {
         })
     }
 
+    const onPlaceSearch = (places: google.maps.places.PlaceResult) => {
+
+    }
+
     useEffect(() => {
         // Initialise map
         if (ref.current && !map) {
@@ -143,13 +150,13 @@ export const MapComponent: React.FC<{}> = () => {
             map.addListener("click", onClickDelayed);
             map.addListener("dblclick", onDblClick);
             map.addListener("zoom_changed", onZoom);
-            
         }
     }, [map, onClickDelayed, onDblClick, onZoom]);
 
     return <div className={styles.mapContainer}>
         <div ref={ref} className={styles.map} >
             {markers}
+            {map && <SearchBox map={map} onPlacesChanged={(place) => {console.log("Place:", place)}} />}
         </div>
         <div className={styles.infoBar}>
             <InfoBar

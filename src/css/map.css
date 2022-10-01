@@ -2,3 +2,29 @@
     width: 900px;
     height: 600px;
 }
+
+.infoBar, .map {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.infoBar {
+    width: 100%;
+    background-color: white;
+    transform: translateY(0%);
+    transition: transform .5s;
+
+}
+
+.infoBar.hidden {
+    transform: translateY(-100%);
+}
+
+.mapContainer {
+    width: 900px;
+    height: 600px;
+
+    position: relative;
+    overflow: hidden;
+}

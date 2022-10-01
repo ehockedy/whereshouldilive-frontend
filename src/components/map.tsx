@@ -1,11 +1,14 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import styles from "/src/css/map.css";
-import OverlayView from "./customOverlay";
+import { MarkerOverlayView } from "./customOverlay";
 import PlacePopup from "./placePopup";
 import { getBestResult, bestResultMethod } from "./mapUtils";
+import classnames from "classnames"
 
 const activeBestResultMethod = bestResultMethod.USE_FIRST;
+const maxZoomForSelection = 14;
+const initialMapZoom = 8;
 
 export const MapComponent: React.FC<{}> = () => {
     const ref = useRef<HTMLDivElement>(null);
@@ -17,11 +20,32 @@ export const MapComponent: React.FC<{}> = () => {
     // One up counter, used to assign unique key to each marker
     const [markerCount, setMarkerCount] = useState<number>(0);
 
+    // Whether the drop down info bar is on show
+    const [infoBarShown, setInfoBarShown] = useState<boolean>(false);
+    const [infoBarMessage, setInfoBarMessage] = useState<string>("");
+
+    const [infowindowTimeout, setinfowindowTimeout] = useState<ReturnType<typeof setTimeout>>();
+    const [doubleClickTimeout, setdoubleClickTimeout] = useState<ReturnType<typeof setTimeout>>();
 
     const onClick = (event: google.maps.MapMouseEvent) => {
         if (!map) {
             return
         }
+        const zoom = map.getZoom()
+        if (zoom && zoom < maxZoomForSelection) {
+            // User has clicked but zoomed too far out
+            setInfoBarShown(true);
+            setInfoBarMessage("Zoom in more to get a more accurate selection");
+            if (infowindowTimeout) {
+                clearTimeout(infowindowTimeout)
+            }
+            setinfowindowTimeout(setTimeout(() => {
+                //infowindow.close();
+                setInfoBarShown(false);
+            }, 3000))
+            return;
+        }
+
 
         // Get place from lat/long of clicked spot on map
         const geocoder = new google.maps.Geocoder();
@@ -32,7 +56,6 @@ export const MapComponent: React.FC<{}> = () => {
                 bounds: map.getBounds(),
             })
             .then((response) => {
-                const zoom = map.getZoom()
                 if (response && response.results.length && zoom && clickedLocation) {
                     const selectedPlace = getBestResult(activeBestResultMethod, response.results, map, clickedLocation);
                     if (selectedPlace) {
@@ -47,49 +70,90 @@ export const MapComponent: React.FC<{}> = () => {
                 if (response && response.results.length) {
                     const selectedPlace = response.results[0];
                     const overlay = 
-                        <OverlayView
+                        <MarkerOverlayView
                             position={selectedPlace.geometry.location}
                             map={map}
                             key={`marker${markerCount}`}
                         >
                             <PlacePopup />
-                        </OverlayView>;
+                        </MarkerOverlayView>;
                     // Add overlay to store and increment unique counter
                     setMarkers([...markers, overlay]);
                     setMarkerCount(markerCount + 1);
-                    map.fitBounds(selectedPlace.geometry.viewport);
+                    map.panTo(selectedPlace.geometry.location);
                 }
             })
+    }
 
+    const onClickDelayed = (event: google.maps.MapMouseEvent) => {
+        // Wait a short amount of time before starting the click event. This
+        // prevents prematurely running click action if user actually wanted
+        // to double click.
+        setdoubleClickTimeout(setTimeout(() => {
+            onClick(event)
+        }, 300));
+    }
+
+    const onDblClick = () => {
+        // On double click, do not show the info bar, and if the first click
+        // event is waiting, cancel it.
+        setInfoBarShown(false);
+        if (doubleClickTimeout) {
+            clearTimeout(doubleClickTimeout);
+        }
+    }
+
+    const getPointerType = (zoom: number | undefined) => {
+        if (zoom && zoom >= maxZoomForSelection) {
+            return 'pointer';
+        }
+        return 'grab';
+    }
+
+    const onZoom = () => {
+        if (!map) {
+            return;
+        }
+        const zoom = map.getZoom();
+        map.setOptions({
+            draggableCursor: getPointerType(zoom)
+        })
     }
 
     useEffect(() => {
         // Initialise map
         if (ref.current && !map) {
             setMap(new window.google.maps.Map(ref.current, {
-                zoom: 8,
+                zoom: initialMapZoom,
                 center: new google.maps.LatLng(51.74, -1.25),
                 disableDefaultUI: true,
-                clickableIcons: false
+                clickableIcons: false,
+                draggableCursor: getPointerType(initialMapZoom)
             }));
         }
     }, [ref, map]);
 
-
     useEffect(() => {
         // Add map events
         if (map) {
-            ["click"].forEach((eventName) =>
+            ["click", "dblclick", "zoom_changed"].forEach((eventName) =>
                 google.maps.event.clearListeners(map, eventName)
             );
 
-            if (onClick) {
-                map.addListener("click", onClick);
-            }
+            map.addListener("click", onClickDelayed);
+            map.addListener("dblclick", onDblClick);
+            map.addListener("zoom_changed", onZoom);
+            
         }
-    }, [map, onClick]);
+    }, [map, onClickDelayed, onDblClick, onZoom]);
 
-    return <div ref={ref} className={styles.map} >
-        {markers.map((m) => m)}
+    return <div className={styles.mapContainer}>
+        <div ref={ref} className={styles.map} >
+            {markers}
+        </div>
+        <div className={classnames(styles.infoBar, {
+            [styles.hidden]: !infoBarShown }
+        )}>{infoBarMessage}</div>
     </div>
+
 }

@@ -48,20 +48,28 @@ const createOverlay = (
   return new CustomOverlay(position, container, pane);
 }
 
+export enum OverlayType {
+  fullscreen,
+  marker
+}
+
 type OverlayProps = PropsWithChildren<{
-  position: google.maps.LatLng
   pane?: keyof google.maps.MapPanes
   map: google.maps.Map
   zIndex?: number
 }>
 
-const OverlayView = ({
+type MarkerOverlayProps = OverlayProps & {
+  position: google.maps.LatLng
+}
+
+const MarkerOverlayView = ({
   position,
   pane = 'floatPane',
   map,
   zIndex,
   children,
-}: OverlayProps) => {
+}: MarkerOverlayProps) => {
   const container = useMemo(() => {
     const div = document.createElement('div')
     div.style.position = 'absolute'
@@ -85,5 +93,4 @@ const OverlayView = ({
   return createPortal(children, container)
 }
 
-
-export default OverlayView;
+export { MarkerOverlayView };

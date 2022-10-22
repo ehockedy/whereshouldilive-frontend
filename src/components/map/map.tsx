@@ -30,6 +30,25 @@ export const MapComponent: React.FC<{}> = () => {
     const [infowindowTimeout, setinfowindowTimeout] = useState<ReturnType<typeof setTimeout>>();
     const [doubleClickTimeout, setdoubleClickTimeout] = useState<ReturnType<typeof setTimeout>>();
 
+    const focusOnPlace = (location: google.maps.LatLng, bounds: google.maps.LatLngBounds | undefined, map: google.maps.Map) => {
+        const overlay =
+            <MarkerOverlayView
+                position={location}
+                map={map}
+                key={`marker${markerCount}`}
+            >
+                <PlacePopup />
+            </MarkerOverlayView>;
+        // Add overlay to store and increment unique counter
+        setMarkers([...markers, overlay]);
+        setMarkerCount(markerCount + 1);
+        if (bounds) {
+            map.fitBounds(bounds);
+        } else {
+            map.panTo(location);
+        }
+    }
+
     const onClick = (event: google.maps.MapMouseEvent) => {
         if (!map) {
             return
@@ -72,18 +91,7 @@ export const MapComponent: React.FC<{}> = () => {
             .then((response) => {
                 if (response && response.results.length) {
                     const selectedPlace = response.results[0];
-                    const overlay = 
-                        <MarkerOverlayView
-                            position={selectedPlace.geometry.location}
-                            map={map}
-                            key={`marker${markerCount}`}
-                        >
-                            <PlacePopup />
-                        </MarkerOverlayView>;
-                    // Add overlay to store and increment unique counter
-                    setMarkers([...markers, overlay]);
-                    setMarkerCount(markerCount + 1);
-                    map.panTo(selectedPlace.geometry.location);
+                    focusOnPlace(selectedPlace.geometry.location, selectedPlace.geometry.bounds, map)
                 }
             })
     }
@@ -123,8 +131,10 @@ export const MapComponent: React.FC<{}> = () => {
         })
     }
 
-    const onPlaceSearch = (places: google.maps.places.PlaceResult) => {
-
+    const onPlaceSearch = (place: google.maps.places.PlaceResult) => {
+        if (place.geometry?.location && map) {
+            focusOnPlace(place.geometry.location, place.geometry.viewport, map);
+        }
     }
 
     useEffect(() => {
@@ -156,7 +166,7 @@ export const MapComponent: React.FC<{}> = () => {
     return <div className={styles.mapContainer}>
         <div ref={ref} className={styles.map} >
             {markers}
-            {map && <SearchBox map={map} onPlacesChanged={(place) => {console.log("Place:", place)}} />}
+            {map && <SearchBox map={map} onPlacesChanged={onPlaceSearch} />}
         </div>
         <div className={styles.infoBar}>
             <InfoBar

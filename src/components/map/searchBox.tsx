@@ -25,6 +25,7 @@ const SearchBox = ({map, onPlacesChanged}: SearchBoxProps) => {
             setSearchBox(new google.maps.places.Autocomplete(input.current,{
                 fields: ['formatted_address', 'place_id', 'geometry']
             }))
+            map.controls[google.maps.ControlPosition.RIGHT_TOP].push(input.current);
         }
 
         // return () => {
@@ -33,12 +34,10 @@ const SearchBox = ({map, onPlacesChanged}: SearchBoxProps) => {
     }, [map, handleOnPlacesChanged]);
 
     useEffect(() => {
-        if (searchBox && input.current) {
+        if (searchBox) {
             searchBox.addListener('place_changed', handleOnPlacesChanged);
-            map.controls[google.maps.ControlPosition.RIGHT_TOP].push(input.current);
         }
-
-    }, [searchBox])
+    }, [searchBox, handleOnPlacesChanged])
 
     return <input
         ref={input}

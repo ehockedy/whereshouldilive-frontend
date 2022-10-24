@@ -27,15 +27,20 @@ const AddPlaceButton = (props: AddPlaceButtonProps) =>
 
 type PlacePopupProps = {
     name: string;
+    onClose: () => void
 }
 const PlacePopup = (props: PlacePopupProps) => {
     return <div className={styles.popup}
         // Prevent map interactions
         ref={ ref => ref && google.maps.OverlayView.preventMapHitsFrom(ref) }
     >
-        <div className={styles.popupTitle}>
-            {props.name}
+        <div className={styles.popupHeader}>
+            <div className={styles.popupTitle}>
+                {props.name}
+            </div>
+            <button onClick={props.onClose} className={styles.popupCancel}>&times;</button>
         </div>
+
         <div className={classnames(styles.popupContent, styles.popupButtons)}>
             <AddPlaceButton type={'POTENTIAL_HOME'}/>
             <AddPlaceButton type={'IMPORTANT_PLACE'}/>

@@ -18,10 +18,10 @@ export const MapComponent: React.FC<{}> = () => {
     const [map, setMap] = useState<google.maps.Map>();
 
     // Store of markers currently displayed on the map
-    const [markers, setMarkers] = useState<JSX.Element[]>([]);
+    const [marker, setMarker] = useState<JSX.Element>();
 
     // One up counter, used to assign unique key to each marker
-    const [markerCount, setMarkerCount] = useState<number>(0);
+    //const [markerCount, setMarkerCount] = useState<number>(0);
 
     // Whether the drop down info bar is on show
     const [infoBarShown, setInfoBarShown] = useState<boolean>(false);
@@ -40,13 +40,13 @@ export const MapComponent: React.FC<{}> = () => {
             <MarkerOverlayView
                 position={location}
                 map={map}
-                key={`marker${markerCount}`}
+                //key={`marker${markerCount}`}
             >
-                <PlacePopup name={name}/>
+                <PlacePopup name={name} onClose={() => {setMarker(undefined)}}/>
             </MarkerOverlayView>;
         // Add overlay to store and increment unique counter
-        setMarkers([...markers, overlay]);
-        setMarkerCount(markerCount + 1);
+        setMarker(overlay);
+        //setMarkerCount(markerCount + 1);
         if (bounds) {
             map.fitBounds(bounds);
         } else {
@@ -180,7 +180,7 @@ export const MapComponent: React.FC<{}> = () => {
 
     return <div className={styles.mapContainer}>
         <div ref={ref} className={styles.map} >
-            {markers}
+            {marker}
             {map && <SearchBox map={map} onPlacesChanged={onPlaceSearch} />}
         </div>
         <div className={styles.infoBar}>

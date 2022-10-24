@@ -30,14 +30,19 @@ export const MapComponent: React.FC<{}> = () => {
     const [infowindowTimeout, setinfowindowTimeout] = useState<ReturnType<typeof setTimeout>>();
     const [doubleClickTimeout, setdoubleClickTimeout] = useState<ReturnType<typeof setTimeout>>();
 
-    const focusOnPlace = (location: google.maps.LatLng, bounds: google.maps.LatLngBounds | undefined, map: google.maps.Map) => {
+    const placeMarker = (
+        name: string,
+        location: google.maps.LatLng,
+        bounds: google.maps.LatLngBounds | undefined,
+        map: google.maps.Map
+    ) => {
         const overlay =
             <MarkerOverlayView
                 position={location}
                 map={map}
                 key={`marker${markerCount}`}
             >
-                <PlacePopup />
+                <PlacePopup name={name}/>
             </MarkerOverlayView>;
         // Add overlay to store and increment unique counter
         setMarkers([...markers, overlay]);
@@ -91,7 +96,12 @@ export const MapComponent: React.FC<{}> = () => {
             .then((response) => {
                 if (response && response.results.length) {
                     const selectedPlace = response.results[0];
-                    focusOnPlace(selectedPlace.geometry.location, selectedPlace.geometry.bounds, map)
+                    placeMarker(
+                        selectedPlace.formatted_address,
+                        selectedPlace.geometry.location,
+                        selectedPlace.geometry.bounds,
+                        map
+                    )
                 }
             })
     }
@@ -132,8 +142,13 @@ export const MapComponent: React.FC<{}> = () => {
     }
 
     const onPlaceSearch = (place: google.maps.places.PlaceResult) => {
-        if (place.geometry?.location && map) {
-            focusOnPlace(place.geometry.location, place.geometry.viewport, map);
+        if (place.geometry?.location && place.formatted_address && map) {
+            placeMarker(
+                place.formatted_address,
+                place.geometry.location,
+                place.geometry.viewport,
+                map
+            );
         }
     }
 

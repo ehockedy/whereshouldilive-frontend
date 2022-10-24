@@ -1,15 +1,94 @@
 .popup {
-    transform: translate(-50%, -100%);
-    background-color: crimson;
+    font-family: 'Rocko';
+    transform: translate(-50%, -135px);
+    background-color: var(--primaryBackground);
+    width: 200px;
+    min-height: 120px;
+    border-radius: 4px;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0));
+    border: 2px solid var(--primaryHighlight);
 }
 
 .popup .popupContent::after {
     content: " ";
     position: absolute;
-    top: 100%; /* At the bottom of the tooltip */
+    top: 101%; /* At the bottom of the tooltip */
     left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
+    margin-left: -15px;
+    border-width: 15px;
     border-style: solid;
-    border-color: black transparent transparent transparent;
-  }
+    border-color: var(--primaryHighlight) transparent transparent transparent;
+}
+
+.popupTitle {
+    font-size: 14px;
+    margin-top: 4px;
+    margin-left: 8px;
+}
+
+.popupButtons {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.addPlaceButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.addPlaceButton {
+    font-family: inherit;
+    font-size: 32px;
+    /* //font-weight: 'normal'; */
+    width: 40px;
+    height: 40px;
+
+    background-color: white;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 4px;
+    /* margin-top: 32px;
+    margin-bottom: 16px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addPlaceButton:hover {
+    cursor: pointer;
+}
+
+.addPlaceButton:active {
+    transform: scale(0.9);
+}
+
+.addPlaceButtonText {
+    width: 100%;
+    margin: 8px;
+    text-align: center;
+}
+
+.addPlaceButton.blue {
+    border-color: var(--potentialHomePrimary);
+    background-color: var(--potentialHomeSecondary);
+}
+
+.addPlaceButton.green {
+    border-color: var(--importantPlacePrimary);
+    background-color: var(--importantPlaceSecondary);
+}
+
+.addPlaceButton.blue:hover {
+    border-color: var(--potentialHomePrimaryHover);
+    background-color: var(--potentialHomeSecondaryHover);
+}
+
+.addPlaceButton.green:hover {
+    border-color: var(--importantPlacePrimaryHover);
+    background-color: var(--importantPlaceSecondaryHover);
+}

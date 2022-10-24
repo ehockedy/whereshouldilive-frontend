@@ -6,11 +6,22 @@ body {
 :root {
     --primaryText: #000;
     --primaryHighlight: #d85151;
-    --primaryBackground: #d8515132;
+    --primaryBackground: #f7dcdc;
     --primaryShadow: rgba(0, 0, 0, 0.25);
     --infoBoxInfoText: #262626e0;
     --infoBoxInfo: #e2e2e2e0;
     --infoBoxInfoBorder: #bababae0;
+    --popupBackground: #e2e2e2;
+
+    --potentialHomePrimary: #5574b0;
+    --potentialHomeSecondary: #94a1bc;
+    --potentialHomePrimaryHover: #6b92de;
+    --potentialHomeSecondaryHover: #abbbdc;
+
+    --importantPlacePrimary: #51b551;
+    --importantPlaceSecondary: #95cc95;
+    --importantPlacePrimaryHover: #68d568;
+    --importantPlaceSecondaryHover: #afeeaf;
 }
 
 @font-face {

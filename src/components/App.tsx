@@ -65,6 +65,8 @@ export const App = () => {
       Where Should I Live?
     </h1>
 
-    <MapWrapper />
+    <div className={styles.mapAndLists}>
+      <MapWrapper />
+    </div>
   </>
 )};

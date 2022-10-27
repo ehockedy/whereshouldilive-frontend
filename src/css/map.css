@@ -1,6 +1,6 @@
 .map {
-    width: 900px;
-    height: 600px;
+    width: 720px;
+    height: 480px;
 }
 
 .infoBar, .map {
@@ -10,9 +10,14 @@
 }
 
 .mapContainer {
-    width: 900px;
-    height: 600px;
+    width: 720px;
+    height: 480px;
 
     position: relative;
     overflow: hidden;
+
+    border: 2px solid var(--primaryHighlight);
+    border-radius: 4px;
+
+    margin-top: 64px;
 }

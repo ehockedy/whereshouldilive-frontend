@@ -6,3 +6,8 @@
     line-height: 85%;
     text-shadow: 0px 4px 4px var(--primaryShadow);
 }
+
+.mapAndLists {
+    display: flex;
+    justify-content: space-around;
+}

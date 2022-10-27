@@ -96,22 +96,22 @@
     text-align: center;
 }
 
-.addPlaceButton.blue {
+.addPlaceButton.potentialHome {
     border-color: var(--potentialHomePrimary);
     background-color: var(--potentialHomeSecondary);
 }
 
-.addPlaceButton.green {
+.addPlaceButton.importantPlace {
     border-color: var(--importantPlacePrimary);
     background-color: var(--importantPlaceSecondary);
 }
 
-.addPlaceButton.blue:hover {
+.addPlaceButton.potentialHome:hover {
     border-color: var(--potentialHomePrimaryHover);
     background-color: var(--potentialHomeSecondaryHover);
 }
 
-.addPlaceButton.green:hover {
+.addPlaceButton.importantPlace:hover {
     border-color: var(--importantPlacePrimaryHover);
     background-color: var(--importantPlaceSecondaryHover);
 }

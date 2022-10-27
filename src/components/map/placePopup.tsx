@@ -1,21 +1,22 @@
 import * as React from "react";
 import styles from "/src/css/placePopup.css"
 import classnames from "classnames";
+import { Place, PlaceType } from "../place";
 
-type PlaceType = 'POTENTIAL_HOME' | 'IMPORTANT_PLACE'
 type AddPlaceButtonProps = {
     type: PlaceType;
+    onClick: () => void;
 }
 const AddPlaceButton = (props: AddPlaceButtonProps) =>
 <div className={styles.addPlaceButtonContainer}>
     <button
         onClick={(e) => {
-            // e.preventDefault()
             e.stopPropagation()
+            props.onClick()
         }}
         className={classnames(styles.addPlaceButton, {
-            [styles.green]: props.type === 'POTENTIAL_HOME',
-            [styles.blue]: props.type === 'IMPORTANT_PLACE'
+            [styles.potentialHome]: props.type === 'POTENTIAL_HOME',
+            [styles.importantPlace]: props.type === 'IMPORTANT_PLACE'
         })}
     >
         +
@@ -28,6 +29,8 @@ const AddPlaceButton = (props: AddPlaceButtonProps) =>
 type PlacePopupProps = {
     name: string;
     onClose: () => void
+    onAddImportantPlace: () => void;
+    onAddPotentialHome: () => void;
 }
 const PlacePopup = (props: PlacePopupProps) => {
     return <div className={styles.popup}
@@ -42,8 +45,8 @@ const PlacePopup = (props: PlacePopupProps) => {
         </div>
 
         <div className={classnames(styles.popupContent, styles.popupButtons)}>
-            <AddPlaceButton type={'POTENTIAL_HOME'}/>
-            <AddPlaceButton type={'IMPORTANT_PLACE'}/>
+            <AddPlaceButton type={'POTENTIAL_HOME'} onClick={props.onAddPotentialHome}/>
+            <AddPlaceButton type={'IMPORTANT_PLACE'} onClick={props.onAddImportantPlace}/>
         </div>
     </div>
 }

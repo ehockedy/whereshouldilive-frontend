@@ -1,20 +1,21 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "/src/css/App.css"
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import { MapComponent } from "./map/map";
+import { MapComponent, MapProps } from "./map/map";
+import { Place } from "./place";
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
 };
 
-const MapWrapper = () => {
+const MapWrapper = (props: MapProps) => {
   const API_KEY = process.env.API_KEY;
   if (!API_KEY) {
       return <div>Unable to load API key, does .env file exist in top level directory?</div>
   }
   return <Wrapper apiKey={API_KEY} render={renderMapStatus} libraries={['places']}>
-      <MapComponent/>
+      <MapComponent {...props}/>
   </Wrapper>
 }
 
@@ -58,7 +59,8 @@ export const App = () => {
     .catch( a => { console.log(a) })
   }, [])
 
-
+  const [potentialHomes, setPotentialHomes] = useState<Array<Place>>([]);
+  const [importantPlaces, setImportantPlaces] = useState<Array<Place>>([]);
 
   return (<>
     <h1 className={styles.title}>
@@ -66,7 +68,12 @@ export const App = () => {
     </h1>
 
     <div className={styles.mapAndLists}>
-      <MapWrapper />
+      <MapWrapper
+        potentialHomes={potentialHomes}
+        importantPlaces={importantPlaces}
+        onAddPotentialHome={(p: Place) => {setPotentialHomes([...potentialHomes, p])}}
+        onAddImportantPlace={(p: Place) => {setImportantPlaces([...importantPlaces, p])}}
+      />
     </div>
   </>
 )};

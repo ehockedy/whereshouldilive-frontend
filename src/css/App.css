@@ -9,5 +9,9 @@
 
 .mapAndLists {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
+}
+
+.lists {
+    width: 35%;
 }

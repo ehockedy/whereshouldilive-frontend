@@ -4,6 +4,7 @@ import styles from "/src/css/App.css"
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { MapComponent, MapProps } from "./map/map";
 import { Place } from "./place";
+import PlaceList from "./placeList";
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
@@ -74,6 +75,10 @@ export const App = () => {
         onAddPotentialHome={(p: Place) => {setPotentialHomes([...potentialHomes, p])}}
         onAddImportantPlace={(p: Place) => {setImportantPlaces([...importantPlaces, p])}}
       />
+      <div className={styles.lists}>
+        <PlaceList type={"POTENTIAL_HOME"} places={potentialHomes}/>
+        <PlaceList type={"IMPORTANT_PLACE"} places={importantPlaces}/>
+      </div>
     </div>
   </>
 )};

@@ -13,3 +13,9 @@ export type Place = {
     latlng: google.maps.LatLng;
     type: PlaceType;
 }
+
+export type PotentialHome = Place;
+
+export type ImportantPlace = Place & {
+    visitsPerMonth: number;
+}

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "/src/css/App.css"
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { MapComponent, MapProps } from "./map/map";
-import { Place } from "./place";
+import { ImportantPlace, Place, PotentialHome } from "./place";
 import PlaceList from "./placeList";
 
 const renderMapStatus = (status: Status) => {
@@ -60,8 +60,8 @@ export const App = () => {
     .catch( a => { console.log(a) })
   }, [])
 
-  const [potentialHomes, setPotentialHomes] = useState<Array<Place>>([]);
-  const [importantPlaces, setImportantPlaces] = useState<Array<Place>>([]);
+  const [potentialHomes, setPotentialHomes] = useState<Array<PotentialHome>>([]);
+  const [importantPlaces, setImportantPlaces] = useState<Array<ImportantPlace>>([]);
 
   return (<>
     <h1 className={styles.title}>
@@ -72,8 +72,8 @@ export const App = () => {
       <MapWrapper
         potentialHomes={potentialHomes}
         importantPlaces={importantPlaces}
-        onAddPotentialHome={(p: Place) => {setPotentialHomes([...potentialHomes, p])}}
-        onAddImportantPlace={(p: Place) => {setImportantPlaces([...importantPlaces, p])}}
+        onAddPotentialHome={(p: PotentialHome) => {setPotentialHomes([...potentialHomes, p])}}
+        onAddImportantPlace={(p: ImportantPlace) => {setImportantPlaces([...importantPlaces, p])}}
       />
       <div className={styles.lists}>
         <PlaceList type={"POTENTIAL_HOME"} places={potentialHomes}/>

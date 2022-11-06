@@ -6,7 +6,7 @@ import PlacePopup from "./placePopup";
 import { getBestResult, bestResultMethod } from "./mapUtils";
 import { InfoBar } from "./infoBar";
 import SearchBox from "./searchBox";
-import { Place, PlaceType } from "../place";
+import { ImportantPlace, Place, PlaceType, PotentialHome } from "../place";
 import SelectedPlaceMarker from "./selectedPlaceMarker";
 
 const activeBestResultMethod = bestResultMethod.USE_FIRST;
@@ -14,10 +14,10 @@ const maxZoomForSelection = 14;
 const initialMapZoom = 8;
 
 export type MapProps = {
-    importantPlaces: Array<Place>;
-    potentialHomes: Array<Place>;
-    onAddImportantPlace: (p: Place) => void;
-    onAddPotentialHome: (p: Place) => void;
+    importantPlaces: Array<ImportantPlace>;
+    potentialHomes: Array<PotentialHome>;
+    onAddImportantPlace: (p: ImportantPlace) => void;
+    onAddPotentialHome: (p: PotentialHome) => void;
 }
 
 export const MapComponent: React.FC<MapProps> = (props: MapProps) => {
@@ -46,23 +46,34 @@ export const MapComponent: React.FC<MapProps> = (props: MapProps) => {
             <MarkerOverlayView
                 position={location}
                 map={map}
+                key={id}
             >
                 <PlacePopup
                     name={name}
                     onClose={() => {setMarker(undefined)}}
                     onAddPotentialHome={() => {
-                        props.onAddPotentialHome({name: name, id: id, latlng: location, type: 'POTENTIAL_HOME'})
+                        props.onAddPotentialHome({
+                            name: name,
+                            id: id,
+                            latlng: location,
+                            type: 'POTENTIAL_HOME'
+                        })
                         setMarker(undefined)
                     }}
-                    onAddImportantPlace={() => {
-                        props.onAddImportantPlace({name: name, id: id, latlng: location, type: 'IMPORTANT_PLACE'})
+                    onAddImportantPlace={(vpm: number) => {
+                        props.onAddImportantPlace({
+                            name: name,
+                            id: id,
+                            latlng: location,
+                            type: 'IMPORTANT_PLACE',
+                            visitsPerMonth: vpm
+                        })
                         setMarker(undefined)
                     }}
                 />
             </MarkerOverlayView>;
         // Add overlay to store and increment unique counter
         setMarker(overlay);
-        //setMarkerCount(markerCount + 1);
         if (bounds) {
             map.fitBounds(bounds);
         } else {

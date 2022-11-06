@@ -198,7 +198,7 @@ export const MapComponent: React.FC<MapProps> = (props: MapProps) => {
 
     const createPlaceMarkerArray = (list: Array<Place>, type: PlaceType, map: google.maps.Map): Array<JSX.Element> =>
         list.map(place =>
-            <MarkerOverlayView position={place.latlng} map={map}>
+            <MarkerOverlayView position={place.latlng} map={map} key={`${place.id}`}>
                 <SelectedPlaceMarker name={place.name} type={type}/>
             </MarkerOverlayView>
         )

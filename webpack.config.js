@@ -67,6 +67,9 @@ module.exports = {
                         plugins: ['@babel/plugin-transform-runtime'],
                     },
                 },
+            },      {
+                test: /\.svg$/,
+                use: ['@svgr/webpack'],
             },
         ],
     },

@@ -1,0 +1,23 @@
+.importantPlace {
+    fill: var(--importantPlacePrimary);
+}
+
+.potentialHome {
+    fill: var(--potentialHomePrimary);
+}
+
+.markerIcon {
+    filter: drop-shadow(0px 4px 4px rgb(0 0 0 / 0.6));
+}
+
+.markerContainer {
+    transform: translate(-50%, -100%) scale(1.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.markerEmoji {
+    position: absolute;
+    top: 4%;
+}

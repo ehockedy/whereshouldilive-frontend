@@ -1,12 +1,32 @@
+.title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: fit-content;
+    padding-bottom: 16px;
+}
+
 .placeList {
     padding-top: 32px;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    min-height: 240px;
 }
+
 
 .placeListTitle {
     font-size: 30px;
-    padding-bottom: 16px;
     display: flex;
     align-items: center;
+
+}
+
+.vpmTitle {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 4px;
+    font-size: 20px;
 }
 
 .titleIcon {
@@ -16,15 +36,56 @@
 }
 
 .placeListList {
-    height: 180px;
     font-size: 20px;
     overflow: auto;
 }
 
+.placeListList:hover {
+    color: var(--fadedText);
+}
+
 .potentialHomes {
-    color: var(--potentialHomePrimary)
+    color: var(--potentialHomePrimary);
 }
 
 .importantPlaces {
-    color: var(--importantPlacePrimary)
+    color: var(--importantPlacePrimary);
+}
+
+.placeEntry {
+    height: 36px;
+    display: flex;
+    align-items: center;
+}
+
+.placeEntry:hover {
+    color: var(--primaryText) !important;
+}
+
+.importantPlaceEntry {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.entryName {
+    width: 90%;
+}
+.entryValue {
+    all: unset;
+
+    width: 10%;
+    display: flex;
+    justify-content: end;
+
+    background-color: unset;
+    border: none;
+    text-align: right;
+    font-size: 20px;
+}
+
+.entryValue:focus,
+.entryValue:hover {
+    background-color: white;
+    border: 2px solid var(--primaryHighlight);
+    border-radius: 4px;
 }

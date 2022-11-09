@@ -76,8 +76,8 @@ export const App = () => {
         onAddImportantPlace={(p: ImportantPlace) => {setImportantPlaces([...importantPlaces, p])}}
       />
       <div className={styles.lists}>
-        <PlaceList type={"POTENTIAL_HOME"} places={potentialHomes}/>
-        <PlaceList type={"IMPORTANT_PLACE"} places={importantPlaces}/>
+        <PlaceList type={"POTENTIAL_HOME"} potentialHomes={potentialHomes}/>
+        <PlaceList type={"IMPORTANT_PLACE"} importantPlaces={importantPlaces} updateImportantPlaceList={setImportantPlaces}/>
       </div>
     </div>
   </>

@@ -4,7 +4,8 @@ body {
 }
 
 :root {
-    --primaryText: #000;
+    --primaryText: rgb(0, 0, 0);
+    --fadedText: rgba(0, 0, 0, 0.4);
     --primaryHighlight: #d85151;
     --primaryBackground: #f7dcdc;
     --primaryShadow: rgba(0, 0, 0, 0.25);

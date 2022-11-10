@@ -41,7 +41,7 @@ const SearchBox = ({map, onPlacesChanged}: SearchBoxProps) => {
 
     return <input
         ref={input}
-        placeholder={"Search for place"}
+        placeholder={"Search for a place"}
         type="text"
         className={styles.searchBoxInput}
     />;

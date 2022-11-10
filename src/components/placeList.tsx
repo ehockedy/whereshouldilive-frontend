@@ -67,6 +67,7 @@ type PlaceListProps = {
     type: PlaceType;
     places: Array<Place>;
     updatePlaceList: (places: Array<Place>) => void;
+    setFocusedPlace: (place: Place | undefined) => void;
 }
 
 const PlaceList = (props: PlaceListProps) => {
@@ -86,7 +87,12 @@ const PlaceList = (props: PlaceListProps) => {
             </div>
             <div className={styles.placeListList}>
                 {isIPList ? props.places.map((place) =>
-                    <div key={place.id} className={classnames(styles.importantPlaceEntry, styles.placeEntry)}>
+                    <div
+                        key={place.id}
+                        className={classnames(styles.importantPlaceEntry, styles.placeEntry)}
+                        onMouseOver={() => props.setFocusedPlace(place)}
+                        onMouseLeave={() => props.setFocusedPlace(undefined)}
+                    >
                         <div>{place.name}</div>
                         <ChangeVPMInput
                             place={place}
@@ -97,7 +103,12 @@ const PlaceList = (props: PlaceListProps) => {
                     </div>
                 ) :
                 props.places.map((place, idx) => 
-                    <div key={`place_${idx}`} className={styles.placeEntry}>
+                    <div
+                        key={place.id}
+                        className={styles.placeEntry}
+                        onMouseOver={() => props.setFocusedPlace(place)}
+                        onMouseLeave={() => props.setFocusedPlace(undefined)}
+                    >
                         <span className={styles.potentialHomeName}>{place.name}</span>
                         <DeleteEntry placeList={props.places} placeToDelete={place} updatePlaceList={props.updatePlaceList}/>
                     </div>

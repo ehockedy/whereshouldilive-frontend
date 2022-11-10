@@ -18,6 +18,7 @@ export type MapProps = {
     potentialHomes: Array<Place>;
     onAddImportantPlace: (p: Place) => void;
     onAddPotentialHome: (p: Place) => void;
+    focusedPlace: Place | undefined;
 }
 
 export const MapComponent: React.FC<MapProps> = (props: MapProps) => {
@@ -206,6 +207,13 @@ export const MapComponent: React.FC<MapProps> = (props: MapProps) => {
             map.addListener("zoom_changed", onZoom);
         }
     }, [map, onClickDelayed, onDblClick, onZoom]);
+
+    useEffect(() => {
+        // Pan to the element that is in focus at the moment.
+        if (map && props.focusedPlace) {
+            map.panTo(props.focusedPlace.latlng);
+        }
+    }, [props.focusedPlace])
 
     useEffect(() => {
         // Add a place for testing

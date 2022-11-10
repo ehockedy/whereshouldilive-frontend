@@ -62,6 +62,7 @@ export const App = () => {
 
   const [potentialHomes, setPotentialHomes] = useState<Array<Place>>([]);
   const [importantPlaces, setImportantPlaces] = useState<Array<Place>>([]);
+  const [focusedPlace, setFocusedPlace] = useState<Place>();
 
   return (<>
     <h1 className={styles.title}>
@@ -74,10 +75,21 @@ export const App = () => {
         importantPlaces={importantPlaces}
         onAddPotentialHome={(p: Place) => {setPotentialHomes([...potentialHomes, p])}}
         onAddImportantPlace={(p: Place) => {setImportantPlaces([...importantPlaces, p])}}
+        focusedPlace={focusedPlace}
       />
       <div className={styles.lists}>
-        <PlaceList type={"POTENTIAL_HOME"} places={potentialHomes} updatePlaceList={setPotentialHomes}/>
-        <PlaceList type={"IMPORTANT_PLACE"} places={importantPlaces} updatePlaceList={setImportantPlaces}/>
+        <PlaceList
+          type={"POTENTIAL_HOME"}
+          places={potentialHomes}
+          updatePlaceList={setPotentialHomes}
+          setFocusedPlace={setFocusedPlace}
+        />
+        <PlaceList
+          type={"IMPORTANT_PLACE"}
+          places={importantPlaces}
+          updatePlaceList={setImportantPlaces}
+          setFocusedPlace={setFocusedPlace}
+        />
       </div>
     </div>
   </>

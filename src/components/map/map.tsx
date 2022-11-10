@@ -6,7 +6,7 @@ import PlacePopup from "./placePopup";
 import { getBestResult, bestResultMethod } from "./mapUtils";
 import { InfoBar } from "./infoBar";
 import SearchBox from "./searchBox";
-import { ImportantPlace, Place, PlaceType, PotentialHome } from "../place";
+import { Place, PlaceType } from "../place";
 import SelectedPlaceMarker from "./selectedPlaceMarker";
 
 const activeBestResultMethod = bestResultMethod.USE_FIRST;
@@ -14,10 +14,10 @@ const maxZoomForSelection = 14;
 const initialMapZoom = 8;
 
 export type MapProps = {
-    importantPlaces: Array<ImportantPlace>;
-    potentialHomes: Array<PotentialHome>;
-    onAddImportantPlace: (p: ImportantPlace) => void;
-    onAddPotentialHome: (p: PotentialHome) => void;
+    importantPlaces: Array<Place>;
+    potentialHomes: Array<Place>;
+    onAddImportantPlace: (p: Place) => void;
+    onAddPotentialHome: (p: Place) => void;
 }
 
 export const MapComponent: React.FC<MapProps> = (props: MapProps) => {

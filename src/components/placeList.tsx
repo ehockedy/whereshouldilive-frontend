@@ -1,34 +1,38 @@
 import classnames from "classnames";
 import React, { useState } from "react";
-import { PlaceType, Place, placeTypeIcon, ImportantPlace, PotentialHome } from "./place";
+import { Place, PlaceType, placeTypeIcon } from "./place";
 import styles from "/src/css/placeList.css";
+import commonstyles from "/src/css/common.css";
 
 type ChangeVPMInputProps = {
-    place: ImportantPlace;
-    importantPlaces: Array<ImportantPlace>;
-    updateImportantPlaceList: (place: Array<ImportantPlace>) => void;
+    place: Place;
+    importantPlaces: Array<Place>;
+    updateImportantPlaceList: (place: Array<Place>) => void;
 }
 
 const ChangeVPMInput = ({place, importantPlaces, updateImportantPlaceList}: ChangeVPMInputProps) => {
     const [tempInputVal, setTempInputValue] = useState<string>('1');
     const [isFocused, setIsFocused] = useState<boolean>(false);
 
-    return <div className={classnames(styles.importantPlaceEntry, styles.placeEntry)}>
-        <div className={styles.entryName}>{place.name}</div>
-        <input
+    const vpm = place.visitsPerMonth;
+    if (!vpm) {
+        return null;
+    }
+
+    return <input
             type={'number'}
             step={0.5}
-            value={isFocused ? tempInputVal : place.visitsPerMonth.toString()}
-            className={styles.entryValue}
+            value={isFocused ? tempInputVal : vpm.toString()}
+            className={styles.entryValueInput}
 
             // Start using the temp value
             onFocus={() => {
                 setIsFocused(true)
-                setTempInputValue(place.visitsPerMonth.toString())
+                setTempInputValue(vpm.toString())
             }}
             onBlur={(e) => {
                 // Update the visits per month of that place
-                updateImportantPlaceList(importantPlaces.map((p: ImportantPlace) => {
+                updateImportantPlaceList(importantPlaces.map((p: Place) => {
                     const parsedValue = Number(e.target.value)
                     if (place.id === p.id && !isNaN(parsedValue) && parsedValue > 0) {
                         return {
@@ -43,23 +47,30 @@ const ChangeVPMInput = ({place, importantPlaces, updateImportantPlaceList}: Chan
             onChange={(e) => {
                 setTempInputValue(e.target.value)
             }}
-        ></input>
-    </div>
+        />
 }
+
+type DeleteEntryProps = {
+  updatePlaceList: (places: Place[]) => void;
+  placeList: Array<Place>;
+  placeToDelete: Place;
+}
+const DeleteEntry = ({updatePlaceList, placeList, placeToDelete}: DeleteEntryProps) => <div className={classnames(styles.entryDelete, commonstyles.noselect)}>
+    <button
+        onClick={() => {updatePlaceList(placeList.filter(p => p.id != placeToDelete.id))}}
+        className={styles.entryDeleteCross}>&times;
+    </button>
+</div>
 
 
 type PlaceListProps = {
     type: PlaceType;
-    potentialHomes?: Array<PotentialHome>;
-    importantPlaces?: Array<ImportantPlace>;
-    updateImportantPlaceList?: (place: Array<ImportantPlace>) => void;
+    places: Array<Place>;
+    updatePlaceList: (places: Array<Place>) => void;
 }
 
 const PlaceList = (props: PlaceListProps) => {
-
     const isIPList = props.type === 'IMPORTANT_PLACE';
-    const importantPlaces = props.importantPlaces;
-    const updateImportantPlaceList = props.updateImportantPlaceList;
 
     return <div>
         <div className={styles.placeList}>
@@ -74,17 +85,21 @@ const PlaceList = (props: PlaceListProps) => {
                 {isIPList && <div className={styles.vpmTitle}>Visits per Month</div>}
             </div>
             <div className={styles.placeListList}>
-                {isIPList && importantPlaces && updateImportantPlaceList ? importantPlaces.map((place) => 
-                    <ChangeVPMInput
-                        key={place.id}
-                        place={place}
-                        importantPlaces={importantPlaces}
-                        updateImportantPlaceList={updateImportantPlaceList}
-                    />
+                {isIPList ? props.places.map((place) =>
+                    <div key={place.id} className={classnames(styles.importantPlaceEntry, styles.placeEntry)}>
+                        <div>{place.name}</div>
+                        <ChangeVPMInput
+                            place={place}
+                            importantPlaces={props.places}
+                            updateImportantPlaceList={props.updatePlaceList}
+                        />
+                        <DeleteEntry placeList={props.places} placeToDelete={place} updatePlaceList={props.updatePlaceList}/>
+                    </div>
                 ) :
-                   props.potentialHomes && props.potentialHomes.map((place, idx) => 
+                props.places.map((place, idx) => 
                     <div key={`place_${idx}`} className={styles.placeEntry}>
-                        <span>{place.name}</span>
+                        <span className={styles.potentialHomeName}>{place.name}</span>
+                        <DeleteEntry placeList={props.places} placeToDelete={place} updatePlaceList={props.updatePlaceList}/>
                     </div>
                 )}
             </div>

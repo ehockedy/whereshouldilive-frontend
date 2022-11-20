@@ -5,6 +5,8 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { MapComponent, MapProps } from "./map/map";
 import { Place } from "./place";
 import PlaceList from "./placeList";
+import type { TransportMode } from "./types";
+import TransportCheckboxes from "./transportCheckboxes";
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
@@ -63,6 +65,7 @@ export const App = () => {
   const [potentialHomes, setPotentialHomes] = useState<Array<Place>>([]);
   const [importantPlaces, setImportantPlaces] = useState<Array<Place>>([]);
   const [focusedPlace, setFocusedPlace] = useState<Place>();
+  const [transportModeOptions, setTransportModeOptions] = useState<Array<TransportMode>>(['driving', 'public_transport'])
 
   return (<>
     <h1 className={styles.title}>
@@ -70,13 +73,25 @@ export const App = () => {
     </h1>
 
     <div className={styles.mapAndLists}>
-      <MapWrapper
-        potentialHomes={potentialHomes}
-        importantPlaces={importantPlaces}
-        onAddPotentialHome={(p: Place) => {setPotentialHomes([...potentialHomes, p])}}
-        onAddImportantPlace={(p: Place) => {setImportantPlaces([...importantPlaces, p])}}
-        focusedPlace={focusedPlace}
-      />
+      <div>
+        <MapWrapper
+          potentialHomes={potentialHomes}
+          importantPlaces={importantPlaces}
+          onAddPotentialHome={(p: Place) => {setPotentialHomes([...potentialHomes, p])}}
+          onAddImportantPlace={(p: Place) => {setImportantPlaces([...importantPlaces, p])}}
+          focusedPlace={focusedPlace}
+        />
+        <TransportCheckboxes
+          selectedTransportModeOptions={transportModeOptions}
+          toggleTransportModeOption={(mode) => {
+            if (transportModeOptions.includes(mode)) {
+              setTransportModeOptions(transportModeOptions.filter((m) => m != mode))
+            } else {
+              setTransportModeOptions([...transportModeOptions, mode])
+            }
+          }}
+        />
+      </div>
       <div className={styles.lists}>
         <PlaceList
           type={"POTENTIAL_HOME"}

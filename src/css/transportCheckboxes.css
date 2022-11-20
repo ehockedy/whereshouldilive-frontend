@@ -1,0 +1,39 @@
+.transportCheckboxes {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+}
+
+.transportCheckboxesTitle {
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+.transportCheckboxWrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.transportCheckbox {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.transportCheckbox:not(:first-child) {
+    margin-left: 24px;
+}
+
+.checkboxBox {
+    height: 16px;
+    width: 16px;
+    border: 2px var(--primaryHighlight) solid;
+    border-radius: 3px;
+    background-color: white;
+    margin-right: 2px;
+}
+
+.checkboxBox.selected {
+    background-color: var(--primaryHighlight);
+}

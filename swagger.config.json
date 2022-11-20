@@ -1,0 +1,5 @@
+{
+    "url": "wsil-shared/wsil.yaml",
+    "dir": "./src/__generated__",
+    "language": "typescript"
+}

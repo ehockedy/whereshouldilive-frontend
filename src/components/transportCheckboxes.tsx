@@ -1,10 +1,12 @@
 import classnames from "classnames";
 import React from "react";
-import { TransportMode, TransportModes } from "./types"
+import { TravelModesEnum } from "../__generated__/types"
 import styles from '/src/css/transportCheckboxes.css'
 
+const TransportModes = Object.values(TravelModesEnum);
+
 type CheckboxProps = {
-    mode: TransportMode;
+    mode: TravelModesEnum;
     selected: boolean;
     onSelect: () => void;
 }
@@ -17,7 +19,7 @@ const Checkbox = (props: CheckboxProps) => {
 }
 
 
-const transportLabels: Record<TransportMode, string> = {
+const transportLabels: Record<TravelModesEnum, string> = {
     'cycling': 'Cycling',
     'driving': 'Driving',
     'public_transport': 'Public Transport',
@@ -25,8 +27,8 @@ const transportLabels: Record<TransportMode, string> = {
 }
 
 type TranspostCheckboxesProps = {
-    selectedTransportModeOptions: Array<TransportMode>;
-    toggleTransportModeOption: (transportMode: TransportMode) => void;
+    selectedTransportModeOptions: Array<TravelModesEnum>;
+    toggleTransportModeOption: (transportMode: TravelModesEnum) => void;
 }
 
 const TransportCheckboxes = (props: TranspostCheckboxesProps) => {

@@ -1,12 +1,13 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "/src/css/App.css"
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { MapComponent, MapProps } from "./map/map";
 import { Place } from "./place";
 import PlaceList from "./placeList";
-import type { TransportMode } from "./types";
 import TransportCheckboxes from "./transportCheckboxes";
+import { getPlaceRanking } from "./queryProcessor";
+import { PlaceRankSummaries, TravelModesEnum } from "../__generated__/types"
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
@@ -23,49 +24,14 @@ const MapWrapper = (props: MapProps) => {
 }
 
 export const App = () => {
-  useEffect(() => {
-    fetch("/rankPlacesToLiveStub", {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "placesToLive": [
-            "Oxford,UK",
-            "Banbury,UK",
-            "Bicester,UK",
-            "Milton Keynes,UK"
-        ],
-        "importantPlaces": [
-            {
-                "id": "Guildford, UK",
-                "visitsPerMonth" : 0.5
-            },
-            {
-                "id": "Lewisham, UK",
-                "visitsPerMonth" : 1
-            },
-            {
-                "id": "Chester, UK",
-                "visitsPerMonth" : 1
-            }
-        ],
-        "travelModes": ["driving", "public_transport"]
-      })
-    })
-    .then(res => {
-      console.log(res);
-      return res.json();
-    })
-    .then(json => console.log(json) )
-    .catch( a => { console.log(a) })
-  }, [])
-
+  // Query state
   const [potentialHomes, setPotentialHomes] = useState<Array<Place>>([]);
   const [importantPlaces, setImportantPlaces] = useState<Array<Place>>([]);
+  const [transportModeOptions, setTransportModeOptions] = useState<Array<TravelModesEnum>>([TravelModesEnum.driving, TravelModesEnum.public_transport])
+  const [result, setResult] = useState<PlaceRankSummaries>([]);
+
+  // Map state
   const [focusedPlace, setFocusedPlace] = useState<Place>();
-  const [transportModeOptions, setTransportModeOptions] = useState<Array<TransportMode>>(['driving', 'public_transport'])
 
   return (<>
     <h1 className={styles.title}>
@@ -107,5 +73,18 @@ export const App = () => {
         />
       </div>
     </div>
+
+    <div className={styles.evaluateButtonContainer}>
+      <button onClick={() => {
+        const rankingResult = getPlaceRanking(potentialHomes, importantPlaces, transportModeOptions);
+        rankingResult
+          .then(res => res.json())
+          .then(json => setResult(json as PlaceRankSummaries) )
+          .catch( a => { console.log(a) })
+      }}>
+        Evaluate
+      </button>
+    </div>
+
   </>
 )};

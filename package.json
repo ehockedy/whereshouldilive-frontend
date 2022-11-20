@@ -16,21 +16,24 @@
     "css-loader": "^6.7.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
+    "prettier": "^2.7.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "swagger-typescript": "^6.4.0",
     "ts-loader": "^9.3.0",
-    "typescript": "^4.7.2",
+    "typescript": "^4.9.3",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.9.0"
   },
   "scripts": {
-    "start": "webpack serve"
+    "start": "yarn swag-ts && webpack serve"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.18.6",
     "@googlemaps/react-wrapper": "^1.1.35",
     "@svgr/webpack": "^6.5.1",
+    "axios": "^1.1.3",
     "classnames": "^2.3.2",
     "dotenv-webpack": "^8.0.1",
     "style-loader": "^3.3.1"

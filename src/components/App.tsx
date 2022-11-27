@@ -75,15 +75,24 @@ export const App = () => {
     </div>
 
     <div className={styles.evaluateButtonContainer}>
-      <button onClick={() => {
+      <button className={styles.submitButton} onClick={() => {
         const rankingResult = getPlaceRanking(potentialHomes, importantPlaces, transportModeOptions);
         rankingResult
-          .then(res => res.json())
+          .then(res => {
+            if (!res.ok) {
+              throw new Error('Bad request');  // TODO handle different responses
+            }
+            return res.json();
+          })
           .then(json => setResult(json as PlaceRankSummaries) )
           .catch( a => { console.log(a) })
       }}>
-        Evaluate
+        EVALUATE
       </button>
+    </div>
+
+    <div className={styles.resultsContainer}>
+
     </div>
 
   </>

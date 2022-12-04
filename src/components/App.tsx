@@ -8,6 +8,7 @@ import PlaceList from "./placeList";
 import TransportCheckboxes from "./transportCheckboxes";
 import { getPlaceRanking } from "./queryProcessor";
 import { PlaceRankSummaries, TravelModesEnum } from "../__generated__/types"
+import Results from "./results";
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
@@ -28,7 +29,80 @@ export const App = () => {
   const [potentialHomes, setPotentialHomes] = useState<Array<Place>>([]);
   const [importantPlaces, setImportantPlaces] = useState<Array<Place>>([]);
   const [transportModeOptions, setTransportModeOptions] = useState<Array<TravelModesEnum>>([TravelModesEnum.driving, TravelModesEnum.public_transport])
-  const [result, setResult] = useState<PlaceRankSummaries>([]);
+  const [results, setResults] = useState<PlaceRankSummaries>([
+    {
+      name: 'ChIJJTcn0yzDdkgRobE0ieoazrM',
+      success: true,
+      totalTravelTimePerMonth: 18897,
+      fastestJourneys: [{
+        name: 'ChIJafWcYtnBekgRn_jYjbNsYkk',
+        success: true,
+        travelMode: TravelModesEnum.driving,
+        travelTime: 9742,
+      },
+      {
+        name: 'ChIJ31mWt6_EdUgRoajr-bKZZpQ',
+        success: true,
+        travelMode: TravelModesEnum.driving,
+        travelTime: 4858,
+      },
+      {
+        name: 'ChIJoSzvQGUCdkgRBqNtgGxNqoc',
+        success: true,
+        travelMode: TravelModesEnum.public_transport,
+        travelTime: 6726,
+      },
+      ],
+    },
+    {
+      name: 'ChIJ5xOOaNPUcEgRquyg7y5e_-A',
+      success: true,
+      totalTravelTimePerMonth: 19157,
+      fastestJourneys: [{
+        name: 'ChIJafWcYtnBekgRn_jYjbNsYkk',
+        success: true,
+        travelMode: TravelModesEnum.driving,
+        travelTime: 8824,
+      },
+      {
+        name: 'ChIJ31mWt6_EdUgRoajr-bKZZpQ',
+        success: true,
+        travelMode: TravelModesEnum.driving,
+        travelTime: 5654,
+      },
+      {
+        name: 'ChIJoSzvQGUCdkgRBqNtgGxNqoc',
+        success: true,
+        travelMode: TravelModesEnum.public_transport,
+        travelTime: 7506,
+      },
+      ],
+    },
+    {
+      name: 'ChIJz_Lr9vv9cEgRzxnoIZabcOw',
+      success: true,
+      totalTravelTimePerMonth: 23434,
+      fastestJourneys: [{
+        name: 'ChIJafWcYtnBekgRn_jYjbNsYkk',
+        success: true,
+        travelMode: TravelModesEnum.driving,
+        travelTime: 9418,
+      },
+      {
+        name: 'ChIJ31mWt6_EdUgRoajr-bKZZpQ',
+        success: true,
+        travelMode: TravelModesEnum.driving,
+        travelTime: 7578,
+      },
+      {
+        name: 'ChIJoSzvQGUCdkgRBqNtgGxNqoc',
+        success: true,
+        travelMode: TravelModesEnum.driving,
+        travelTime: 10227,
+      },
+      ],
+    },
+  ]);
 
   // Map state
   const [focusedPlace, setFocusedPlace] = useState<Place>();
@@ -84,16 +158,16 @@ export const App = () => {
             }
             return res.json();
           })
-          .then(json => setResult(json as PlaceRankSummaries) )
+          .then(json => setResults(json as PlaceRankSummaries) )
           .catch( a => { console.log(a) })
       }}>
         EVALUATE
       </button>
     </div>
 
-    <div className={styles.resultsContainer}>
-
-    </div>
+    {!!results.length && 
+      <Results results={results} potentialHomes={potentialHomes}/>
+    }
 
   </>
 )};

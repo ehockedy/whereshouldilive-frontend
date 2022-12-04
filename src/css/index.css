@@ -7,6 +7,7 @@ body {
     --primaryText: rgb(0, 0, 0);
     --fadedText: rgba(0, 0, 0, 0.4);
     --primaryHighlight: #d85151;
+    --secondaryHighlight: #f6b0b0;
     --primaryBackground: #f7dcdc;
     --primaryShadow: rgba(0, 0, 0, 0.25);
     --infoBoxInfoText: #262626e0;

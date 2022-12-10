@@ -9,6 +9,7 @@ body {
     --primaryHighlight: #d85151;
     --secondaryHighlight: #f6b0b0;
     --primaryBackground: #f7dcdc;
+    --secondaryBackground: rgb(244, 244, 244);
     --primaryShadow: rgba(0, 0, 0, 0.25);
     --infoBoxInfoText: #262626e0;
     --infoBoxInfo: #e2e2e2e0;

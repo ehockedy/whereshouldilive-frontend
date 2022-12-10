@@ -33,19 +33,28 @@
     flex-direction: column;
     width: 100%;
 }
+
+.resultLineContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .resultLine {
     width: 100%;
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 8fr 2fr .5fr;
     min-width: 600px;
     max-width: 1200px;
+    align-items: center;
 }
 
-.name, .travelTimePerMonth {
+.name, .travelTimePerMonth, .expand {
     box-shadow: 0px 4px 2px -2px var(--primaryShadow);
     display: flex;
     justify-content: center;
-    background-color: rgb(244, 244, 244);
+    background-color: var(--secondaryBackground);
     border: 2px solid var(--primaryHighlight);
     padding-top: 4px;
     padding-bottom: 4px;
@@ -54,4 +63,46 @@
     padding: 8px;
     box-sizing: content-box;
     margin: 4px;
+}
+
+.expand {
+    padding: 2px;
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+    align-content: center;
+    border: none;
+    background-color: var(--primaryHighlight);
+}
+
+.moreInfo {
+    height: 0px;
+    transition: height 0.2s;
+
+    transform: translateY(-32px);
+    z-index: -1;
+    overflow: hidden;
+}
+
+.moreInfoExpanded {
+    height: 200px;
+}
+
+.moreInfoContent {
+    border: 2px solid var(--primaryHighlight);
+    padding: 8px;
+    padding-top: 32px;
+    background-color: var(--secondaryBackground);
+    border-radius: 4px;
+
+    height: 100%;
+    width: calc(100% - 32px);
+    margin-left: 16px;
+    box-sizing: border-box;
+
+    /* Span multiple columns so lines up with name and ttpm of main result line */
+    grid-column-start: 1;
+    grid-column-end: 3;
+
+
 }

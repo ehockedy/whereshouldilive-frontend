@@ -25,6 +25,9 @@ body {
     --importantPlaceSecondary: #95cc95;
     --importantPlacePrimaryHover: #68d568;
     --importantPlaceSecondaryHover: #afeeaf;
+
+    --warningText: #ffc107;
+    --errorText: #dc3545;
 }
 
 @font-face {

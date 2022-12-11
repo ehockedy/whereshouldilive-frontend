@@ -166,7 +166,7 @@ export const App = () => {
     </div>
 
     {!!results.length && 
-      <Results results={results} potentialHomes={potentialHomes}/>
+      <Results results={results} potentialHomes={potentialHomes} importantPlaces={importantPlaces}/>
     }
 
   </>

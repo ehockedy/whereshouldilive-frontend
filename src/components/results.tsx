@@ -1,8 +1,21 @@
 import classnames from "classnames";
 import React, { useState } from "react";
-import { PlaceRankSummaries } from "../__generated__/types"
+import { JourneySummary, PlaceRankSummaries, TravelModesEnum } from "../__generated__/types"
 import { Place } from "./place";
 import styles from "/src/css/results.css"
+
+const travelModeToString = (travelMode: TravelModesEnum): string => {
+    switch (travelMode) {
+        case TravelModesEnum.cycling:
+            return "Cycling";
+        case TravelModesEnum.driving:
+            return "Driving";
+        case TravelModesEnum.public_transport:
+            return "Public transport";
+        case TravelModesEnum.walking:
+            return "Walking";
+    }
+}
 
 const formatTravelTime = (seconds: number) => {
     var hours   = Math.floor(seconds / 3600);
@@ -10,28 +23,60 @@ const formatTravelTime = (seconds: number) => {
     return `${hours}h ${minutes}m`
 }
 
+type JourneyLineProps = {
+    journey: JourneySummary;
+    importantPlaceName: string;
+}
+
+const JourneyLine = ({journey, importantPlaceName}: JourneyLineProps) => {
+    return <div className={classnames(styles.journeyLine)}>
+        <div>{importantPlaceName}</div>
+        {journey.success ? 
+            <div className={styles.journeyLineTimeTravel}>
+                <span>{travelModeToString(journey.travelMode)}</span>
+                <span>{formatTravelTime(journey.travelTime)}</span>
+            </div> :
+            <div className={styles.journeyError}>⚠ Unable to evaluate journey</div>} 
+    </div>
+};
+
 type ResultsLineProps = {
     placeName: string,
     travelTimePerMonth: number,
+    fastestJourneys?: JourneySummary[],
+    importantPlaces: Array<Place>,
 }
 const ResultsLine = (props: ResultsLineProps) => {
     const [expand, setExpand] = useState<boolean>(false)
     return <div className={styles.resultLineContainer}>
-        <div className={styles.resultLine} >
+        <div className={classnames(styles.resultLine, styles.resultLineMainLine)} >
             <div className={styles.name}>
                 {props.placeName}
             </div>
             <div className={styles.travelTimePerMonth}>
-                {formatTravelTime(props.travelTimePerMonth)}
+                {props.travelTimePerMonth ? formatTravelTime(props.travelTimePerMonth) : '-'}
             </div>
-            <button className={styles.expand} onClick={() => setExpand(!expand)}>{">"}</button>
+            <button
+                className={styles.expand}
+                onClick={() => setExpand(!expand)}>
+                    <span className={classnames(styles.expandButtonUp, {[styles.expandButtonDown]: !expand})}>
+                        {">"}
+                    </span>
+            </button>
         </div>
         <div className={classnames(styles.resultLine, styles.moreInfo, {[styles.moreInfoExpanded]: expand})}>
-            <div className={classnames(styles.moreInfoContent)}>
-                <div>efhiwefuhewf</div>
-                <div>efhiwefuhewf</div>
-                <div>efhiwefuhewf</div>
-            </div>
+            {props.fastestJourneys && props.fastestJourneys.length
+                ? <div className={classnames(styles.moreInfoContent)}>
+                    <div className={styles.moreInfoTitle}>Journey breakdown</div>
+                    {props.fastestJourneys.map((journey) => {
+                        const importantPlaceName = props.importantPlaces.find(place => place.id === journey.name)
+                        return importantPlaceName
+                            ? <JourneyLine journey={journey} key={journey.name} importantPlaceName={importantPlaceName.name}/>
+                            : null;
+                    })}
+                  </div>
+                : <div>No succesful journies</div>}
+
         </div>
     </div>
 }
@@ -40,6 +85,7 @@ const ResultsLine = (props: ResultsLineProps) => {
 type ResultsProps = {
     results: PlaceRankSummaries;
     potentialHomes: Array<Place>;
+    importantPlaces: Array<Place>;
 }
 
 const Results = (props: ResultsProps) => {
@@ -56,10 +102,16 @@ const Results = (props: ResultsProps) => {
                 <div>Travel Time Per Month</div>
             </div>
             <div className={styles.resultLines}>
-                {props.results.filter((result) => result.success).map((result) => {
+                {props.results.map((result) => {
                     const potentialHome = props.potentialHomes.find((ph) => ph.id === result.name)
                     const name = potentialHome?.name || result.name;
-                    return <ResultsLine placeName={name} travelTimePerMonth={result.totalTravelTimePerMonth} key={name} />
+                    return <ResultsLine
+                        key={name}
+                        placeName={name}
+                        travelTimePerMonth={result.totalTravelTimePerMonth}
+                        fastestJourneys={result.fastestJourneys}
+                        importantPlaces={props.importantPlaces}
+                    />
                 })}
             </div>
         </div>

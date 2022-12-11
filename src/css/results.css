@@ -50,6 +50,10 @@
     align-items: center;
 }
 
+.resultLineMainLine {
+    z-index: 1;
+}
+
 .name, .travelTimePerMonth, .expand {
     box-shadow: 0px 4px 2px -2px var(--primaryShadow);
     display: flex;
@@ -73,19 +77,28 @@
     align-content: center;
     border: none;
     background-color: var(--primaryHighlight);
+    cursor: pointer;
+}
+
+.expandButtonUp {
+    transform: rotate(-90deg);
+    transition: transform 0.2s;
+}
+
+.expandButtonDown {
+    transform: rotate(90deg);
 }
 
 .moreInfo {
-    height: 0px;
-    transition: height 0.2s;
+    max-height: 0px;
+    transition: max-height 0.2s;
 
     transform: translateY(-32px);
-    z-index: -1;
     overflow: hidden;
 }
 
 .moreInfoExpanded {
-    height: 200px;
+    max-height: 200px;
 }
 
 .moreInfoContent {
@@ -95,7 +108,7 @@
     background-color: var(--secondaryBackground);
     border-radius: 4px;
 
-    height: 100%;
+    max-height: 200px;
     width: calc(100% - 32px);
     margin-left: 16px;
     box-sizing: border-box;
@@ -104,5 +117,24 @@
     grid-column-start: 1;
     grid-column-end: 3;
 
+    overflow: auto;
+}
 
+.moreInfoTitle {
+    font-weight: bold;
+    padding-bottom: 4px;
+}
+
+.journeyLine {
+    display: grid;
+    grid-template-columns: 4fr 2fr;
+}
+
+.journeyLineTimeTravel {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.journeyError {
+    color: var(--warningText)
 }

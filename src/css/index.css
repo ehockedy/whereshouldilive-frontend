@@ -6,6 +6,7 @@ body {
 :root {
     --primaryText: rgb(0, 0, 0);
     --fadedText: rgba(0, 0, 0, 0.4);
+    --secondaryText: #5e5e5e;
     --primaryHighlight: #d85151;
     --secondaryHighlight: #f6b0b0;
     --primaryBackground: #f7dcdc;

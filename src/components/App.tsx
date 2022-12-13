@@ -107,11 +107,11 @@ export const App = () => {
   // Map state
   const [focusedPlace, setFocusedPlace] = useState<Place>();
 
-  return (<>
+  return (<div className={styles.mainStructure}>
     <h1 className={styles.title}>
       Where Should I Live?
     </h1>
-
+    <div className={styles.explanation} role="button" >What is this and how does it work?</div>
     <div className={styles.mapAndLists}>
       <div>
         <MapWrapper
@@ -168,6 +168,5 @@ export const App = () => {
     {!!results.length && 
       <Results results={results} potentialHomes={potentialHomes} importantPlaces={importantPlaces}/>
     }
-
-  </>
+  </div>
 )};

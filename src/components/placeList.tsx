@@ -73,47 +73,45 @@ type PlaceListProps = {
 const PlaceList = (props: PlaceListProps) => {
     const isIPList = props.type === 'IMPORTANT_PLACE';
 
-    return <div>
-        <div className={styles.placeList}>
-            <div className={classnames(styles.title)}>
-                <div className={classnames(styles.placeListTitle, {
-                    [styles.potentialHomes]: props.type === 'POTENTIAL_HOME',
-                    [styles.importantPlaces]: props.type === 'IMPORTANT_PLACE',
-                })}>
-                    <span>{props.type === 'POTENTIAL_HOME' ? "Potential Homes" : "Important Places"}</span>
-                    <span className={styles.titleIcon}>{placeTypeIcon(props.type)}</span>
+    return <div className={styles.placeList}>
+        <div className={classnames(styles.title)}>
+            <div className={classnames(styles.placeListTitle, {
+                [styles.potentialHomes]: props.type === 'POTENTIAL_HOME',
+                [styles.importantPlaces]: props.type === 'IMPORTANT_PLACE',
+            })}>
+                <span>{props.type === 'POTENTIAL_HOME' ? "Potential Homes" : "Important Places"}</span>
+                <span className={styles.titleIcon}>{placeTypeIcon(props.type)}</span>
+            </div>
+            {isIPList && <div className={styles.vpmTitle}>Visits per Month</div>}
+        </div>
+        <div className={styles.placeListList}>
+            {isIPList ? props.places.map((place) =>
+                <div
+                    key={place.id}
+                    className={classnames(styles.importantPlaceEntry, styles.placeEntry)}
+                    onMouseOver={() => props.setFocusedPlace(place)}
+                    onMouseLeave={() => props.setFocusedPlace(undefined)}
+                >
+                    <div>{place.name}</div>
+                    <ChangeVPMInput
+                        place={place}
+                        importantPlaces={props.places}
+                        updateImportantPlaceList={props.updatePlaceList}
+                    />
+                    <DeleteEntry placeList={props.places} placeToDelete={place} updatePlaceList={props.updatePlaceList}/>
                 </div>
-                {isIPList && <div className={styles.vpmTitle}>Visits per Month</div>}
-            </div>
-            <div className={styles.placeListList}>
-                {isIPList ? props.places.map((place) =>
-                    <div
-                        key={place.id}
-                        className={classnames(styles.importantPlaceEntry, styles.placeEntry)}
-                        onMouseOver={() => props.setFocusedPlace(place)}
-                        onMouseLeave={() => props.setFocusedPlace(undefined)}
-                    >
-                        <div>{place.name}</div>
-                        <ChangeVPMInput
-                            place={place}
-                            importantPlaces={props.places}
-                            updateImportantPlaceList={props.updatePlaceList}
-                        />
-                        <DeleteEntry placeList={props.places} placeToDelete={place} updatePlaceList={props.updatePlaceList}/>
-                    </div>
-                ) :
-                props.places.map((place, idx) => 
-                    <div
-                        key={place.id}
-                        className={styles.placeEntry}
-                        onMouseOver={() => props.setFocusedPlace(place)}
-                        onMouseLeave={() => props.setFocusedPlace(undefined)}
-                    >
-                        <span className={styles.potentialHomeName}>{place.name}</span>
-                        <DeleteEntry placeList={props.places} placeToDelete={place} updatePlaceList={props.updatePlaceList}/>
-                    </div>
-                )}
-            </div>
+            ) :
+            props.places.map((place, idx) => 
+                <div
+                    key={place.id}
+                    className={styles.placeEntry}
+                    onMouseOver={() => props.setFocusedPlace(place)}
+                    onMouseLeave={() => props.setFocusedPlace(undefined)}
+                >
+                    <span className={styles.potentialHomeName}>{place.name}</span>
+                    <DeleteEntry placeList={props.places} placeToDelete={place} updatePlaceList={props.updatePlaceList}/>
+                </div>
+            )}
         </div>
     </div>
 }

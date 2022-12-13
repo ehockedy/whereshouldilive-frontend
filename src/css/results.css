@@ -138,3 +138,58 @@
 .journeyError {
     color: var(--warningText)
 }
+
+.loadingResults {
+    height: 200px;
+    font-size: 30px;
+    color: var(--secondaryText);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes appear1 {
+    25% {
+      visibility: hidden;
+    }
+    100% {
+      visibility: visible;
+    }
+}
+
+@keyframes appear2 {
+    50% {
+      visibility: hidden;
+    }
+    100% {
+      visibility: visible;
+    }
+}
+
+@keyframes appear3 {
+    75% {
+      visibility: hidden;
+    }
+    100% {
+      visibility: visible;
+    }
+}
+
+.loadingDots {
+    display: inline-block;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    visibility: hidden;
+}
+
+.dot1 {
+    animation-name: appear1;
+}
+
+.dot2 {
+    animation-name: appear2;
+}
+
+.dot3 {
+    animation-name: appear3;
+}

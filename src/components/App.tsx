@@ -29,6 +29,7 @@ export const App = () => {
   const [potentialHomes, setPotentialHomes] = useState<Array<Place>>([]);
   const [importantPlaces, setImportantPlaces] = useState<Array<Place>>([]);
   const [transportModeOptions, setTransportModeOptions] = useState<Array<TravelModesEnum>>([TravelModesEnum.driving, TravelModesEnum.public_transport])
+  const [loading, setLoading] = useState<boolean>(false);
   const [results, setResults] = useState<PlaceRankSummaries>([
     {
       name: 'ChIJJTcn0yzDdkgRobE0ieoazrM',
@@ -151,6 +152,7 @@ export const App = () => {
     <div className={styles.evaluateButtonContainer}>
       <button className={styles.submitButton} onClick={() => {
         const rankingResult = getPlaceRanking(potentialHomes, importantPlaces, transportModeOptions);
+        setLoading(true)
         rankingResult
           .then(res => {
             if (!res.ok) {
@@ -159,14 +161,25 @@ export const App = () => {
             return res.json();
           })
           .then(json => setResults(json as PlaceRankSummaries) )
-          .catch( a => { console.log(a) })
+          .catch(a => {
+            setResults([])
+            console.log(a)
+          })
+          .finally(() => {
+            setLoading(false);
+          })
       }}>
         EVALUATE
       </button>
     </div>
 
-    {!!results.length && 
-      <Results results={results} potentialHomes={potentialHomes} importantPlaces={importantPlaces}/>
+    {(!!results.length || loading )&& 
+      <Results
+        results={results}
+        potentialHomes={potentialHomes}
+        importantPlaces={importantPlaces}
+        loading={loading}
+      />
     }
   </div>
 )};

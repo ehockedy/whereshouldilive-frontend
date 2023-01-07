@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "/src/css/App.css"
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { MapComponent, MapProps } from "./map/map";
@@ -9,6 +9,7 @@ import TransportCheckboxes from "./transportCheckboxes";
 import { getPlaceRanking } from "./queryProcessor";
 import { PlaceRankSummaries, TravelModesEnum } from "../__generated__/types"
 import Results from "./results";
+import classNames from "classnames";
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
@@ -30,6 +31,7 @@ export const App = () => {
   const [importantPlaces, setImportantPlaces] = useState<Array<Place>>([]);
   const [transportModeOptions, setTransportModeOptions] = useState<Array<TravelModesEnum>>([TravelModesEnum.driving, TravelModesEnum.public_transport])
   const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [results, setResults] = useState<PlaceRankSummaries>([
     {
       name: 'ChIJJTcn0yzDdkgRobE0ieoazrM',
@@ -105,9 +107,15 @@ export const App = () => {
     },
   ]);
 
-  console.log(results)
   // Map state
   const [focusedPlace, setFocusedPlace] = useState<Place>();
+
+  useEffect(() => {
+    // If an error message is showing, only remove it if user takes action to rectify error
+    if (!!errorMessage) {
+      setErrorMessage(null);
+    }
+  }, [potentialHomes, importantPlaces, transportModeOptions])
 
   return (<div className={styles.mainStructure}>
     <h1 className={styles.title}>
@@ -151,7 +159,18 @@ export const App = () => {
     </div>
 
     <div className={styles.evaluateButtonContainer}>
+      <div className={styles.submitButtonErrorMessage}>
+        {errorMessage}
+      </div>
       <button className={styles.submitButton} onClick={() => {
+        if (importantPlaces.length < 1 || potentialHomes.length < 1) {
+          setErrorMessage("Must have at least one Potential Home and one Important Place");
+          return;
+        } else if (transportModeOptions.length < 1) {
+          setErrorMessage("Must have at least one transport option");
+          return;
+        }
+
         const rankingResult = getPlaceRanking(potentialHomes, importantPlaces, transportModeOptions);
         setLoading(true)
         rankingResult

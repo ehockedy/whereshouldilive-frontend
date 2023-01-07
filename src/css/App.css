@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     margin-top: 48px;
     margin-bottom: 48px;
 }
@@ -57,6 +58,14 @@
 .submitButton:active {
     transform: translateY(4px);
     box-shadow: 0px 4px 2px -2px var(--primaryShadow);
+}
+
+.submitButtonErrorMessage {
+    height: 32px;
+}
+
+.hidden {
+    display: none;
 }
 
 .mainStructure {

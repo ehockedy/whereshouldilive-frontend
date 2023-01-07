@@ -54,7 +54,7 @@
 }
 
 .placeEntry {
-    height: 30px;
+    min-height: 30px;
     display: flex;
     align-items: center;
     border-bottom: black dotted;
@@ -66,12 +66,12 @@
 }
 
 .potentialHomeName {
-    margin-right: 16px;
+    padding-right: 16px;
 }
 
 .importantPlaceEntry {
     display: grid;
-    grid-template-columns: 9fr 1fr .5fr;
+    grid-template-columns: 9fr 1.5fr .5fr;
 }
 
 .entryValueInput {
@@ -79,7 +79,7 @@
 
     display: flex;
     justify-content: end;
-    width: 48px;
+    width: 60px;
 
     background-color: unset;
     border: none;
@@ -99,6 +99,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    width: 12px;
 }
 
 .entryDeleteCross {

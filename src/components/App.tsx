@@ -105,6 +105,7 @@ export const App = () => {
     },
   ]);
 
+  console.log(results)
   // Map state
   const [focusedPlace, setFocusedPlace] = useState<Place>();
 
@@ -155,9 +156,9 @@ export const App = () => {
         setLoading(true)
         rankingResult
           .then(res => {
-            if (!res.ok) {
-              throw new Error('Bad request');  // TODO handle different responses
-            }
+            // if (!res.ok) {
+            //   throw new Error('Bad request');  // TODO handle different responses
+            // }
             return res.json();
           })
           .then(json => setResults(json as PlaceRankSummaries) )

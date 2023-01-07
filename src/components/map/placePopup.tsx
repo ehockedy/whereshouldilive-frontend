@@ -44,7 +44,7 @@ const PlacePopup = (props: PlacePopupProps) => {
             <input
                 className={styles.vpmInput}
                 type={'number'}
-                step={0.5}
+                step={0.25}
                 onChange={e => {
                     setVisitsPerMonth(e.target.value)
                     setValidVPM(true)

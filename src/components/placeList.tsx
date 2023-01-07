@@ -21,7 +21,7 @@ const ChangeVPMInput = ({place, importantPlaces, updateImportantPlaceList}: Chan
 
     return <input
             type={'number'}
-            step={0.5}
+            step={0.25}
             value={isFocused ? tempInputVal : vpm.toString()}
             className={styles.entryValueInput}
 

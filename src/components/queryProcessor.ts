@@ -1,5 +1,5 @@
 import { Place } from "./place";
-import { TravelModesEnum } from "../__generated__/types";
+import { LatLng, TravelModesEnum } from "../__generated__/types";
 
 type ImportantPlaceParam = {
     id: string;
@@ -20,7 +20,7 @@ const endpoint = '/rankPlacesToLive';
 export const getPlaceRanking = (
     potentialHomes: Array<Place>,
     importantPlace: Array<Place>, 
-    transportModeOptions: Array<TravelModesEnum>
+    transportModeOptions: Array<TravelModesEnum>,
 ) => {
     const placesToLiveParam: Array<string> = potentialHomes.map((place) => place.id);
     const importantPlaceParam: Array<ImportantPlaceParam> = importantPlace.map((place) => {
@@ -34,9 +34,6 @@ export const getPlaceRanking = (
         }
     })
 
-    console.log('IP:', importantPlaceParam)
-    console.log('PH:', placesToLiveParam)
-    console.log('TM:', transportModeOptions)
     return fetch(endpoint, {
         method: "POST",
         headers: {
@@ -47,6 +44,26 @@ export const getPlaceRanking = (
           "placesToLive": placesToLiveParam,
           "importantPlaces": importantPlaceParam,
           "travelModes": transportModeOptions,
+          "latLng": calulateLatLngMidpoint(potentialHomes),
         })
     })
+}
+
+const getSignedDifferece = (a: number, b: number, absoluteMax: number) => {
+    const diff = a - b
+    return (diff + absoluteMax) % (absoluteMax * 2) - absoluteMax;
+}
+
+export const calulateLatLngMidpoint = (places: Place[]): LatLng => {
+    let latSum = 0
+    let lngSum = 0
+    places.forEach((place) => {
+        latSum += place.latlng.lat()
+        lngSum += place.latlng.lng()
+    })
+    const count = places.length;
+    return {
+        lat: latSum / count,
+        lng: lngSum / count,
+    }
 }

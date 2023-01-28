@@ -10,6 +10,7 @@ import { getPlaceRanking } from "./queryProcessor";
 import { PlaceRankSummaries, TravelModesEnum } from "../__generated__/types"
 import Results from "./results";
 import classNames from "classnames";
+import InstructionsModal from "./instructionsModal";
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
@@ -110,6 +111,9 @@ export const App = () => {
   // Map state
   const [focusedPlace, setFocusedPlace] = useState<Place>();
 
+  // Page state
+  const [instructionsModalHidden, setInstructionsModalHidden] = useState<boolean>(true);
+
   useEffect(() => {
     // If an error message is showing, only remove it if user takes action to rectify error
     if (!!errorMessage) {
@@ -121,7 +125,12 @@ export const App = () => {
     <h1 className={styles.title}>
       Where Should I Live?
     </h1>
-    <div className={styles.explanation} role="button" >What is this and how does it work?</div>
+
+    <div className={styles.explanation} role="button" onClick={() => setInstructionsModalHidden(false)}>
+      What is this and how does it work?
+    </div>
+    <InstructionsModal isHidden={instructionsModalHidden} setIsHidden={() => setInstructionsModalHidden(true)} />
+
     <div className={styles.mapAndLists}>
       <div>
         <MapWrapper
@@ -193,7 +202,7 @@ export const App = () => {
       </button>
     </div>
 
-    {(!!results.length || loading )&& 
+    {(!!results.length || loading) &&
       <Results
         results={results}
         potentialHomes={potentialHomes}

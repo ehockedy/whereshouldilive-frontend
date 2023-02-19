@@ -18,13 +18,17 @@
 }
 
 .mapAndLists {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    column-gap: 16px;
+}
+@media screen and (max-width: 768px) {
+    .mapAndLists {
+        grid-template-columns: 1fr;
+    }
 }
 
 .lists {
-    width: 45%;
-    margin-left: 16px;
     margin-top: 4px;
 }
 
@@ -70,6 +74,18 @@
 
 .mainStructure {
     margin: 0 auto;
-    width: 80%;
-    padding: 32px;
+    padding: 16px;
 }
+@media screen and (min-width: 768px) {
+    .mainStructure {
+        width: 90%;
+        padding-top: 32px;
+    }
+}
+@media screen and (min-width: 1200px) {
+    .mainStructure {
+        width: 80%;
+        max-width: 1200px;
+    }
+}
+

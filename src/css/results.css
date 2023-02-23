@@ -19,10 +19,14 @@
 }
 
 .titles {
-    display: flex;
+    display: grid;
     font-size: 14px;
-    justify-content: space-between;
     width: 100%;
+}
+
+.title {
+    display: flex;
+    align-items: center;
 }
 
 .resultLines {
@@ -43,10 +47,13 @@
 .resultLine {
     width: 100%;
     display: grid;
-    grid-template-columns: 7fr 3fr 1fr;
     max-width: 1200px;
     align-items: center;
     column-gap: 8px;
+}
+
+.resultLine, .titles {
+    grid-template-columns: 7fr 3fr 1fr;
 }
 
 .resultLineMainLine {
@@ -65,6 +72,7 @@
     font-size: 18px;
     padding: 8px;
     box-sizing: content-box;
+    overflow-wrap: anywhere;
 }
 
 @media screen and (min-width: 768px) {

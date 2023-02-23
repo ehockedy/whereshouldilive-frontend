@@ -15,9 +15,6 @@ export const InfoBar = (props: InfoBarProps) => {
         [styles.hidden]: !props.shown,
         [styles.infoType]: props.type === 'info'
     })}>
-        <span className={styles.icon}>
-            &#128712;
-        </span>
         {props.message}
     </div>
 }

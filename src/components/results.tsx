@@ -116,8 +116,8 @@ const Results = (props: ResultsProps) => {
                 </div>
               : <>
                     <div className={styles.titles}>
-                        <div>Potential Home</div>
-                        <div>Travel Time Per Month</div>
+                        <div className={styles.title}>Potential Home</div>
+                        <div className={styles.title}>Travel Time Per Month</div>
                     </div>
                     <div className={styles.resultLines}>
                         {props.results.map((result) => {

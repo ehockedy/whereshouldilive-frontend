@@ -80,7 +80,6 @@ const PlaceList = (props: PlaceListProps) => {
                 [styles.importantPlaces]: props.type === 'IMPORTANT_PLACE',
             })}>
                 <span>{props.type === 'POTENTIAL_HOME' ? "Potential Homes" : "Important Places"}</span>
-                <span className={styles.titleIcon}>{placeTypeIcon(props.type)}</span>
             </div>
             {isIPList && <div className={styles.vpmTitle}>Visits per Month</div>}
         </div>

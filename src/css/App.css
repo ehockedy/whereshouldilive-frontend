@@ -4,12 +4,11 @@
     line-height: 64px;
     color: var(--primaryHighlight);
     margin: 0px;
-    line-height: 85%;
     text-shadow: 0px 4px 4px var(--primaryShadow);
 }
 
 .explanation {
-    margin-top: 32px;
+    margin-top: 24px;
     margin-left: 4px;
     font-size: 14px;
     text-decoration: underline;
@@ -23,6 +22,10 @@
     column-gap: 16px;
 }
 @media screen and (max-width: 768px) {
+    .title {
+        font-size: 36px;
+        line-height: 32px;
+    }
     .mapAndLists {
         grid-template-columns: 1fr;
     }
@@ -37,8 +40,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     flex-direction: column;
-    margin-top: 48px;
     margin-bottom: 48px;
 }
 
@@ -46,7 +49,7 @@
     border: none;
     background-color: var(--primaryHighlight);
     font-size: 30px;
-    border-radius: 8px;
+    border-radius: 40px;
     padding-top: 16px;
     padding-bottom: 16px;
     padding-left: 32px;
@@ -65,7 +68,12 @@
 }
 
 .submitButtonErrorMessage {
-    height: 32px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    color: var(--errorText);
 }
 
 .hidden {
@@ -74,12 +82,12 @@
 
 .mainStructure {
     margin: 0 auto;
-    padding: 16px;
+    padding: 8px;
 }
 @media screen and (min-width: 768px) {
     .mainStructure {
         width: 90%;
-        padding-top: 32px;
+        padding-top: 24px;
     }
 }
 @media screen and (min-width: 1200px) {

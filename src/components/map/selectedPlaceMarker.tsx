@@ -18,9 +18,6 @@ const SelectedPlaceMarker = (props: SelectedPlaceMarkerProps) => {
             })}
             stroke="#000"
         />
-        <span className={styles.markerEmoji}>
-            {placeTypeIcon(props.type)}
-        </span>
     </div>
 }
 

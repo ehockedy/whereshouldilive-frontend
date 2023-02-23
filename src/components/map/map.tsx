@@ -90,7 +90,7 @@ export const MapComponent: React.FC<MapProps> = (props: MapProps) => {
         if (zoom && zoom < maxZoomForSelection) {
             // User has clicked but zoomed too far out
             setInfoBarShown(true);
-            setInfoBarMessage("Zoom in more to get a more accurate selection");
+            setInfoBarMessage("Zoom in to get a more accurate selection");
             if (infowindowTimeout) {
                 clearTimeout(infowindowTimeout)
             }
@@ -242,12 +242,10 @@ export const MapComponent: React.FC<MapProps> = (props: MapProps) => {
                 {<SearchBox map={map} onPlacesChanged={onPlaceSearch} />}
             </>}
         </div>}
-        <div className={styles.infoBar}>
-            <InfoBar
-                message={infoBarMessage}
-                shown={infoBarShown}
-                type={'info'}
-            />
-        </div>
+        <InfoBar
+            message={infoBarMessage}
+            shown={infoBarShown}
+            type={'info'}
+        />
     </div>
 }

@@ -4,7 +4,7 @@
     min-width: 200px;
 }
 
-.infoBar, .map {
+.map {
     position: absolute;
     top: 0;
     left: 0;

@@ -126,10 +126,16 @@ export const App = () => {
       Where Should I Live?
     </h1>
 
-    <div className={styles.explanation} role="button" onClick={() => setInstructionsModalHidden(false)}>
+    <div className={styles.explanation} role="button" onClick={() => {
+      setInstructionsModalHidden(false)
+      document.body.classList.add(styles.fixedBody);
+    }}>
       What is this and how does it work?
     </div>
-    <InstructionsModal isHidden={instructionsModalHidden} setIsHidden={() => setInstructionsModalHidden(true)} />
+    <InstructionsModal isHidden={instructionsModalHidden} setIsHidden={() => {
+      setInstructionsModalHidden(true)
+      document.body.classList.remove(styles.fixedBody);
+    }} />
 
     <div className={styles.mapAndLists}>
       <div>

@@ -97,3 +97,6 @@
     }
 }
 
+.fixedBody {
+    overflow: hidden;
+}

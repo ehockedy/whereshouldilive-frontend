@@ -27,7 +27,7 @@
     height: 540px;
     background-color: var(--secondaryBackground);
     border: var(--primaryHighlight) 2px solid;
-    border-radius: 4px;
+    border-radius: var(--borderRadius);
     padding: 16px;
     box-sizing: border-box;
     position: relative;

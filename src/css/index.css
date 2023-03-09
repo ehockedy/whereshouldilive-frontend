@@ -29,6 +29,9 @@ body {
 
     --warningText: #ffc107;
     --errorText: #dc3545;
+
+    --borderWidth: 2px;
+    --borderRadius: 4px;
 }
 
 @font-face {

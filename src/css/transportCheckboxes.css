@@ -33,7 +33,7 @@
 .checkboxBox {
     height: 16px;
     width: 16px;
-    border: 2px var(--primaryHighlight) solid;
+    border: var(--borderWidth) var(--primaryHighlight) solid;
     border-radius: 3px;
     background-color: white;
     margin-right: 2px;

@@ -16,8 +16,8 @@
     position: relative;
     overflow: hidden;
 
-    border: 2px solid var(--primaryHighlight);
-    border-radius: 4px;
+    border: var(--borderWidth) solid var(--primaryHighlight);
+    border-radius: var(--borderRadius);
 
     margin-top: 4px;
 }

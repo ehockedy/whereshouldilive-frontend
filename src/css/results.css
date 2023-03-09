@@ -65,10 +65,10 @@
     display: flex;
     justify-content: center;
     background-color: var(--secondaryBackground);
-    border: 2px solid var(--primaryHighlight);
+    border: var(--borderWidth) solid var(--primaryHighlight);
     padding-top: 4px;
     padding-bottom: 4px;
-    border-radius: 4px;
+    border-radius: var(--borderRadius);
     font-size: 18px;
     padding: 8px;
     box-sizing: content-box;
@@ -120,11 +120,11 @@
 }
 
 .moreInfoContent {
-    border: 2px solid var(--primaryHighlight);
+    border: var(--borderWidth) solid var(--primaryHighlight);
     padding: 8px;
     padding-top: 32px;
     background-color: var(--secondaryBackground);
-    border-radius: 4px;
+    border-radius: var(--borderRadius);
 
     max-height: 200px;
     /* width: 90%; */

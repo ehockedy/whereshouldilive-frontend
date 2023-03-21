@@ -9,8 +9,8 @@ import TransportCheckboxes from "./transportCheckboxes";
 import { getPlaceRanking } from "./queryProcessor";
 import { PlaceRankSummaries, TravelModesEnum } from "../__generated__/types"
 import Results from "./results";
-import classNames from "classnames";
 import InstructionsModal from "./instructionsModal";
+import TitleLogo from "../assets/icons/titleLogo.svg"
 
 const renderMapStatus = (status: Status) => {
   return <h1>{status}</h1>;
@@ -123,7 +123,8 @@ export const App = () => {
 
   return (<div className={styles.mainStructure}>
     <h1 className={styles.title}>
-      Where Should I Live?
+      <TitleLogo className={styles.titleLogo} width='120px' height='120px'/>
+      <div className={styles.titleText}>Where Should I Live?</div>
     </h1>
 
     <div className={styles.explanation} role="button" onClick={() => {

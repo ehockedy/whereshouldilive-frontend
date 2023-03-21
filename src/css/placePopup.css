@@ -1,5 +1,5 @@
 .popup {
-    font-family: 'Rocko';
+    font-family: var(--fontRegular);
     transform: translate(-50%, -110%);
     background-color: var(--primaryBackground);
     width: 200px;

@@ -1,5 +1,5 @@
 .searchBoxInput {
-    font-family: 'Rocko';
+    font-family: var(--fontRegular);
     margin: 16px;
     width: 45%;
 }

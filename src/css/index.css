@@ -1,5 +1,5 @@
 body {
-    font-family: 'Rocko';
+    font-family: var(--fontRegular);
     background-color: var(--primaryBackground);
 }
 
@@ -32,18 +32,22 @@ body {
 
     --borderWidth: 2px;
     --borderRadius: 4px;
+
+    --fontRegular: 'RobotoRegular';
+    --fontBold: 'RobotoBold';
 }
 
 @font-face {
-    font-family: 'Rocko';
-    src: url(/resources/fonts/rocko/RockoFLF.ttf);
+    font-family: 'RobotoRegular';
+    src: url(/resources/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf)
 }
 
 @font-face {
-    font-family: 'RockoBold';
-    src: url(/resources/fonts/rocko/RockoFLF-Bold.ttf);
+    font-family: 'RobotoBold';
+    src: url(/resources/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf);
 }
 
+/* Style the Google maps text */
 .pac-container {
-    font-family: 'Rocko';
+    font-family: 'RobotoRegular';
 }

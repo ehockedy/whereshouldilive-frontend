@@ -71,12 +71,21 @@ module.exports = {
                 test: /\.svg$/,
                 use: ['@svgr/webpack'],
             },
+            {
+                test: /\.png$/,
+                use: [
+                  {
+                    loader: "file-loader"
+                  }
+                ]
+            }
         ],
     },
     plugins: [
         // This generates the index.html with all required script tags using the given template
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "src", "public", "index.html"),
+            favicon: './src/assets/icons/favicon.png',
         }),
         new Dotenv()
     ],

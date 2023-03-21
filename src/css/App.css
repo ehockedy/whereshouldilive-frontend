@@ -20,7 +20,7 @@
 .explanation {
     margin-top: 8px;
     margin-left: 4px;
-    font-size: 14px;
+    font-size: 16px;
     text-decoration: underline;
     cursor: pointer;
     width: fit-content;
@@ -114,4 +114,8 @@
 
 .fixedBody {
     overflow: hidden;
+}
+
+.copyrightText {
+    text-align: center;
 }

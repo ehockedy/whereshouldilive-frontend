@@ -217,5 +217,6 @@ export const App = () => {
         loading={loading}
       />
     }
+    <div className={styles.copyrightText}>&copy; 2023 Edward Hockedy</div>
   </div>
 )};

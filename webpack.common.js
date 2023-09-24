@@ -6,13 +6,6 @@ const loaderUtils = require('loader-utils');
 module.exports = {
     entry: "./src/components/index.tsx",
     target: "web",  // This builds for web, not servers
-    mode: "development",
-    devServer: {
-        port: 3001,
-        proxy: {
-            '/': 'http://localhost:8080'
-        }
-    },
     output: {
         path: path.resolve(__dirname, "build"),
         filename: "bundle.js",
@@ -86,7 +79,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "src", "public", "index.html"),
             favicon: './src/assets/icons/favicon.png',
-        }),
-        new Dotenv()
+        })
     ],
 };

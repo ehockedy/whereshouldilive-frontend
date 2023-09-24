@@ -6,15 +6,15 @@ type ImportantPlaceParam = {
     visitsPerMonth: number;
 }
 
-const endpoint = '/rankPlacesToLive';
-
+const API_URL =  process.env.API_URL;
+const endpoint = API_URL + '/rankPlacesToLive'
 
 /**
  * Constructs ranking endpoint query and initiates call to the backend.
  * 
  * @param potentialHomes Array of places that are potential places to live
  * @param importantPlace Array of places that are important to consider proximity to
- * @param transportModeOptions Array of available transport ypes that should be considered in jounrey times
+ * @param transportModeOptions Array of available transport types that should be considered in journey times
  * @returns A Promise for the result of the fetch
  */
 export const getPlaceRanking = (

@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "yarn swag-ts && webpack serve --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "yarn swag-ts && webpack --config webpack.prod.js"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.18.6",

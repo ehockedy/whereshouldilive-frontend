@@ -215,16 +215,16 @@ export const MapComponent: React.FC<MapProps> = (props: MapProps) => {
         }
     }, [props.focusedPlace])
 
-    useEffect(() => {
-        // Add a place for testing
-        props.onAddImportantPlace({
-                "name": "Oxford, UK",
-                "id": "ChIJrx_ErYAzcUgRAnRUy6jbIMg",
-                "latlng": new google.maps.LatLng(51.7520209, -1.2577263),
-                "type": "IMPORTANT_PLACE",
-                "visitsPerMonth": 1
-        })
-    }, [])
+    // useEffect(() => {
+    //     // Add a place for testing
+    //     props.onAddImportantPlace({
+    //             "name": "Oxford, UK",
+    //             "id": "ChIJrx_ErYAzcUgRAnRUy6jbIMg",
+    //             "latlng": new google.maps.LatLng(51.7520209, -1.2577263),
+    //             "type": "IMPORTANT_PLACE",
+    //             "visitsPerMonth": 1
+    //     })
+    // }, [])
 
     const createPlaceMarkerArray = (list: Array<Place>, type: PlaceType, map: google.maps.Map): Array<JSX.Element> =>
         list.map(place =>

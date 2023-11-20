@@ -144,6 +144,6 @@ export const App = () => {
         loading={loading}
       />
     }
-    <div className={styles.copyrightText}>&copy; 2023 Edward Hockedy</div>
+    <div className={styles.copyrightText}>&copy; 2023 <a href="https://home.edhockedy.com" target="_blank" className={styles.mysiteLink} >Edward Hockedy</a></div>
   </div>
 )};

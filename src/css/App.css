@@ -120,3 +120,8 @@
 .copyrightText {
     text-align: center;
 }
+
+.mysiteLink {
+    text-decoration: none;
+    color: var(--primaryText);
+}

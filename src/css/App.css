@@ -75,6 +75,7 @@
 
 .submitButton:hover {
     cursor: pointer;
+    background-color: var(--primaryHighlightTinted);
 }
 
 .submitButton:active {

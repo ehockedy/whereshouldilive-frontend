@@ -8,6 +8,7 @@ body {
     --fadedText: rgba(0, 0, 0, 0.4);
     --secondaryText: #5e5e5e;
     --primaryHighlight: #d85151;
+    --primaryHighlightTinted: #eb5c5c;
     --secondaryHighlight: #f6b0b0;
     --primaryBackground: #f7dcdc;
     --secondaryBackground: rgb(244, 244, 244);
